@@ -15,7 +15,7 @@ public class Worker {
 	        //String url = "//162.105.96.50:8804/SAMPLE-SERVER";
 		 	String serverUrl = "//162.105.96.50:8804/SAMPLE-SERVER";
 		 	MasterFunc calc = (MasterFunc) Naming.lookup(serverUrl);
-		 	calc.AddWorker(url);
-		 	System.out.println(url);
+		 	int id = calc.AddWorker(url);
+		 	System.out.println(id);
 	    }
 }
