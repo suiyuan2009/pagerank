@@ -54,7 +54,8 @@ public class WorkerPr {
 		nids.clear();
 		return 0;
 	}
-	public void print(){
+	public void print(int round){
+		System.out.println("round: "+round);
 		for(int i=0;i<ids.size();i++){
 			System.out.println("id: "+ids.get(i)+",pr: "+Pr.get(i));
 		}

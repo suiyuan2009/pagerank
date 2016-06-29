@@ -20,6 +20,7 @@ public class Worker {
 	public static String[] workerUrls;
 	public static int[] workerIds;
 	public static boolean calcPrFlag;
+	public static int round;
 	
 	public synchronized int sendPrMsg() throws Exception{
     	for(int i=0;i<workerIds.length;i++){
@@ -33,7 +34,7 @@ public class Worker {
     		
     		for(int j=0;j<Worker.wpr.ids.size();j++){
     			int idx = (int) Worker.wpr.ids.get(j);
-    			double pr=(double)Worker.wpr.Pr.get(j);
+    			double pr=((double)Worker.wpr.Pr.get(j))/(int)((ArrayList)Worker.wpr.edges.get(j)).size();
     			for(int k=0;k<((ArrayList)Worker.wpr.edges.get(j)).size();k++){
     			int idy = (int) ((ArrayList)Worker.wpr.edges.get(j)).get(k);
     			if(idy%Worker.wpr.WorkerNum == id){
@@ -90,6 +91,11 @@ public class Worker {
 	        }
 		 	System.out.println("worker page rank begins");
 		 	
+		 	round = 0;
+		 	
+		 	worker.wpr.print(round);
+		 	round++;
+		 	
 		 	while(true){
 		 		Thread.sleep(100);
 		 		if(worker.sendMsgFlag == true){
@@ -102,7 +108,8 @@ public class Worker {
 		 			worker.calcPrFlag = false;
 		 			System.out.println("calc Pr finished");
 		 			master.Completed(id, MasterFunc.CALC_COMPLETED);
-		 			worker.wpr.print();
+		 			worker.wpr.print(round);
+		 			round++;
 		 		}
 		 	}
 		 	
