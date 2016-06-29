@@ -1,10 +1,8 @@
 package worker;
 
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
+import share.Graph;
 import share.MasterFunc;
 import share.SharedFunc;
 
@@ -15,7 +13,9 @@ public class Worker {
 	        //String url = "//162.105.96.50:8804/SAMPLE-SERVER";
 		 	String serverUrl = "//162.105.96.50:8804/SAMPLE-SERVER";
 		 	MasterFunc calc = (MasterFunc) Naming.lookup(serverUrl);
+		 	Graph g = new Graph("TestData01.txt");
 		 	int id = calc.AddWorker(url);
+		 	g.setWorkNo(id);
 		 	System.out.println(id);
 	    }
 }
