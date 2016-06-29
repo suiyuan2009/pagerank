@@ -38,23 +38,35 @@ public class Master {
 		String[] workerUrls = new String[WorkNum];
 		for (int i = 0; i < WorkNum; i++)
 			workerUrls[i] = WorkerList.get(i);
-		SendCompleted = 0;
-		for (int i = 0; i < WorkNum; i++) {
-			funcs[i].sendPrMsg(workerUrls, workerIds);
-			System.out.println("Send  " + workerUrls[i]);
-		}
-		while (true) {
-			Thread.sleep(5000);
-			//	System.out.println("Size now = " + WorkList.size());
-				if (SendCompleted == WorkNum) {
-					System.out.println("ALL Send Completed");
-					break;
-				}
-		}
-		CalcCompleted = 0;
-		for (int i = 0; i < WorkNum; i++) {
-			funcs[i].CalcPr(workerUrls, workerIds);
-			System.out.println("Calc  " + workerUrls[i]);
+		
+		for (int o = 0; o < TMax; o++) {
+			System.out.println("Roudn " + o);
+			SendCompleted = 0;
+			for (int i = 0; i < WorkNum; i++) {
+				funcs[i].sendPrMsg(workerUrls, workerIds);
+				System.out.println("Send  " + workerUrls[i]);
+			}
+			while (true) {
+				Thread.sleep(500);
+				//	System.out.println("Size now = " + WorkList.size());
+					if (SendCompleted == WorkNum) {
+						System.out.println("ALL Send Completed");
+						break;
+					}
+			}
+			CalcCompleted = 0;
+			for (int i = 0; i < WorkNum; i++) {
+				funcs[i].calcPr();
+				System.out.println("Calc  " + workerUrls[i]);
+			}
+			while (true) {
+				Thread.sleep(500);
+				//	System.out.println("Size now = " + WorkList.size());
+					if (CalcCompleted == WorkNum) {
+						System.out.println("ALL Calc Completed");
+						break;
+					}
+			}
 		}
 	}
 	
