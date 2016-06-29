@@ -73,7 +73,7 @@ public class Worker {
 
 		System.out.println("server url: " + serverUrl);
 
-		Graph g = new Graph("web-Google.txt");
+		Graph g = new Graph("p2p-Gnutella08.txt");
 
 		int workerNum = 2;
 		int id = master.AddWorker(url);

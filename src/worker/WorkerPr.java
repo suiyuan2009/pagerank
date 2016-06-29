@@ -76,7 +76,7 @@ public class WorkerPr {
 		System.out.println("round: " + round);
 		for (int i = 0; i < ids.size(); i++) {
 			int idx = (int) ids.get(i);
-			if(idx % 100000 == 0)
+			if(idx % 1000 == 0)
 			System.out.println("id: " + ids.get(i) + ",pr: " + Pr.get(i));
 		}
 	}
