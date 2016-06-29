@@ -95,9 +95,14 @@ public class Worker {
 		 		if(worker.sendMsgFlag == true){
 		 			worker.sendPrMsg();
 		 			worker.sendMsgFlag = false;
+		 			System.out.println("sendMsg finished");
 		 			master.Completed(id, MasterFunc.SENT_COMPLETED);
 		 		} else if (worker.calcPrFlag == true) {
-		 			
+		 			worker.wpr.calcPr();
+		 			worker.calcPrFlag = false;
+		 			System.out.println("calc Pr finished");
+		 			master.Completed(id, MasterFunc.CALC_COMPLETED);
+		 			worker.wpr.print();
 		 		}
 		 	}
 		 	
