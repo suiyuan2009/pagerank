@@ -26,7 +26,8 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
     	return Master.WorkerList.get(index);
     }
     
-    public synchronized void SendCompleted(int id) throws RemoteException {
-    	Master.SendCompleted ++;
+    public synchronized void Completed(int id, int type) throws RemoteException {
+    	if (type == MasterFunc.SENT_COMPLETED) Master.SendCompleted ++;
+    	if (type == MasterFunc.CALC_COMPLETED) Master.CalcCompleted ++;
     }
 }

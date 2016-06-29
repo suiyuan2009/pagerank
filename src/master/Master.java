@@ -12,6 +12,7 @@ public class Master {
 	static final int WorkNum = 2;
 	static final int TMax = 10;
 	static int SendCompleted = 0;
+	static int CalcCompleted = 0;
 	static MasterFuncImp func;
 	static ArrayList<String> WorkerList = new ArrayList<String>();
 	public static void main(String arg[]) throws Exception{
@@ -40,7 +41,7 @@ public class Master {
 		SendCompleted = 0;
 		for (int i = 0; i < WorkNum; i++) {
 			funcs[i].sendPrMsg(workerUrls, workerIds);
-			System.out.println("Send to " + workerUrls[i]);
+			System.out.println("Send  " + workerUrls[i]);
 		}
 		while (true) {
 			Thread.sleep(5000);
@@ -49,6 +50,11 @@ public class Master {
 					System.out.println("ALL Send Completed");
 					break;
 				}
+		}
+		CalcCompleted = 0;
+		for (int i = 0; i < WorkNum; i++) {
+			funcs[i].CalcPr(workerUrls, workerIds);
+			System.out.println("Calc  " + workerUrls[i]);
 		}
 	}
 	
