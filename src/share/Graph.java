@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Graph {
-	public int WorkNum, WorkNo; // % WorkNum = WorkNo;
+	public int WorkNo; // % WorkNum = WorkNo;
 	public int M, N;
 	private ArrayList X = new ArrayList();
 	private ArrayList Y = new ArrayList();
-	public Graph(int x, int y, String filename) {
-		WorkNum = x; WorkNo = y;
+	public Graph(String filename) {
+		//WorkNum = x; WorkNo = y;
 		File file = new File(filename);
         BufferedReader reader = null;
         try {
@@ -31,11 +31,11 @@ public class Graph {
                 tmp = tempString.split(" ");
                 int u = Integer.parseInt(tmp[0]);
                 int v = Integer.parseInt(tmp[1]);
-                if (u % WorkNum == WorkNo) {
+                //if (u % WorkNum == WorkNo) {
                 	M++;
                 	X.add(u);
                 	Y.add(v);
-                }
+                //}
             }
             reader.close();
         } catch (IOException e) {
@@ -57,6 +57,15 @@ public class Graph {
 	
 	public int getY(int id) {
 		return (int)Y.get(id);
+	}
+	
+	public void setWorkNo(int no) {
+		WorkNo = no;
+	}
+	
+	public boolean isVaild(int no, int WorkNum) {
+		int x = (int)X.get(no);
+		return x % WorkNo == no;
 	}
 	
 }

@@ -19,6 +19,6 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
     	System.out.println("Add worker " + url);
     	Master.WorkList.add(url);
     	System.out.println("WorkList size = " + Master.WorkList.size());
-		return 0;
+		return Master.WorkList.size();
     }
 }
