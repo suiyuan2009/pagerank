@@ -27,7 +27,7 @@ public class Graph {
             M = 0;
             while ((tempString = reader.readLine()) != null) {
                 // œ‘ æ––∫≈
-                System.out.println("line " + line + ": " + tempString);
+            	System.out.println("line " + (line++) + ": " + tempString);
                 tmp = tempString.split(" ");
                 int u = Integer.parseInt(tmp[0]);
                 int v = Integer.parseInt(tmp[1]);
