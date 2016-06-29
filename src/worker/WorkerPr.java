@@ -6,6 +6,7 @@ import java.util.HashMap;
 import share.Graph;
 
 public class WorkerPr {
+	public int WorkerId;
 	public ArrayList ids = new ArrayList();
 	public HashMap idsmp = new HashMap();
 	public ArrayList edges = new ArrayList();
@@ -14,7 +15,7 @@ public class WorkerPr {
 	public ArrayList nids = new ArrayList();
 	public int WorkerNum;
 	public WorkerPr(Graph g, int WorkerNum_){
-		
+		WorkerId = g.WorkNo;
 		WorkerNum = WorkerNum_;
 		int cnt = 0;
 		for(int i=0;i<g.N;i++)
