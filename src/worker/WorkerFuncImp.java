@@ -27,5 +27,10 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 		System.out.println("receive Msg:  "+ "workerid: "+ Worker.wpr.WorkerId + ", node pagerank value: " + pr + ", node id: " +idx);
 		return 0;
 	}
-	
+	public synchronized int calcPr() throws Exception{
+		
+		Worker.calcPrFlag = true;
+		System.out.println("master say to calc Pr:  "+ "workerid: "+ Worker.wpr.WorkerId );
+		return 0;
+	}
 }
