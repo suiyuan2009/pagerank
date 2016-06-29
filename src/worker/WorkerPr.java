@@ -39,4 +39,8 @@ public class WorkerPr {
 		System.out.println(((ArrayList)edges.get(0)).size());
 		System.out.println(((ArrayList)edges.get(1)).size());
 	}
+	public int update(){
+		
+		return 0;
+	}
 }

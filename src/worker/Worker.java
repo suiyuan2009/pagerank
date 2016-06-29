@@ -19,6 +19,7 @@ public class Worker {
 	public static boolean sendMsgFlag;
 	public static String[] workerUrls;
 	public static int[] workerIds;
+	public static boolean calcPrFlag;
 	
 	public synchronized int sendPrMsg() throws Exception{
     	for(int i=0;i<workerIds.length;i++){
@@ -75,7 +76,6 @@ public class Worker {
 		 	
 		 	Worker worker = new Worker();
 		 	worker.wpr = new WorkerPr(g,workerNum);
-		 	worker.sendMsgFlag = false;
 		 	
 		 	try {
 		 		LocateRegistry.createRegistry((int) portList.get(0));    
@@ -95,6 +95,8 @@ public class Worker {
 		 		if(worker.sendMsgFlag == true){
 		 			worker.sendPrMsg();
 		 			worker.sendMsgFlag = false;
+		 			master.SendCompleted(id);
+		 		} else if (worker.calcPrFlag == true) {
 		 			
 		 		}
 		 	}
