@@ -63,8 +63,7 @@ public class Graph {
 		WorkNo = no;
 	}
 	
-	public boolean isVaild(int no, int WorkNum) {
-		int x = (int)X.get(no);
+	public boolean isVaild(int x, int WorkNum) {
 		return x % WorkNum == WorkNo;
 	}
 	
