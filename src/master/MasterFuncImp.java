@@ -17,12 +17,12 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
     
     public synchronized int AddWorker(String url) throws RemoteException {
     	System.out.println("Add worker " + url);
-    	Master.WorkList.add(url);
-    	System.out.println("WorkList size = " + Master.WorkList.size());
-		return Master.WorkList.size();
+    	Master.WorkerList.add(url);
+    	System.out.println("WorkList size = " + Master.WorkerList.size());
+		return Master.WorkerList.size() - 1;
     }
     
     public String GetWorker(int index) throws RemoteException {
-    	return Master.WorkList.get(index);
+    	return Master.WorkerList.get(index);
     }
 }
