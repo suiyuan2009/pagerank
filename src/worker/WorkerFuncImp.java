@@ -25,8 +25,9 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 
 	public synchronized int receivePrMsg(double pr, int idx) throws Exception {
 
-		Worker.wpr.nPr.add((double) pr);
-		Worker.wpr.nids.add((int) idx);
+		Worker.wpr.addMsg(pr, idx);
+		//Worker.wpr.nPr.add((double) pr);
+		//Worker.wpr.nids.add((int) idx);
 		// System.out.println("receive Msg: "+ "workerid: "+ Worker.wpr.WorkerId
 		// + ", node pagerank value: " + pr + ", node id: " +idx);
 		return 0;
