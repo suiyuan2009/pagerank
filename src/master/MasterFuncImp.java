@@ -21,4 +21,8 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
     	System.out.println("WorkList size = " + Master.WorkList.size());
 		return Master.WorkList.size();
     }
+    
+    public String GetWorker(int index) throws RemoteException {
+    	return Master.WorkList.get(index);
+    }
 }
