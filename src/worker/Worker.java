@@ -12,10 +12,15 @@ public class Worker {
 		 	String url = SharedFunc.GetIP("10.2.5.185");
 	        //String url = "//162.105.96.50:8804/SAMPLE-SERVER";
 		 	String serverUrl = "//162.105.96.50:8804/SAMPLE-SERVER";
-		 	MasterFunc calc = (MasterFunc) Naming.lookup(serverUrl);
+		 	//MasterFunc calc = (MasterFunc) Naming.lookup(serverUrl);
 		 	Graph g = new Graph("TestData01.txt");
-		 	int id = calc.AddWorker(url);
+		 	int id = 0;
+		 	int workerNum = 3;
+		 	WorkerPr wpr = new WorkerPr(g,workerNum);
+		 	
+		 	//int id = calc.AddWorker(url);
+		 	//System.out.println(id);
 		 	g.setWorkNo(id);
-		 	System.out.println(id);
+		 	
 	    }
 }
