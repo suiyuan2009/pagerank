@@ -14,7 +14,9 @@ public class WorkerPr {
 	public ArrayList nPr = new ArrayList();
 	public ArrayList nids = new ArrayList();
 	public int WorkerNum;
-	public WorkerPr(Graph g, int WorkerNum_){
+	public Graph g;
+	public WorkerPr(Graph g_, int WorkerNum_){
+		g = g_;
 		WorkerId = g.WorkNo;
 		WorkerNum = WorkerNum_;
 		int cnt = 0;
@@ -35,12 +37,26 @@ public class WorkerPr {
 				e.add(g.getY(i));
 			}
 		}
-		System.out.println(ids);
-		System.out.println(((ArrayList)edges.get(0)).size());
-		System.out.println(((ArrayList)edges.get(1)).size());
+		//System.out.println(ids);
+		//System.out.println(((ArrayList)edges.get(0)).size());
+		//System.out.println(((ArrayList)edges.get(1)).size());
 	}
-	public int update(){
-		
+	public int calcPr(){
+		for(int i=0;i<ids.size();i++){
+			Pr.set(i, 0.15/g.N);
+		}
+		for(int i=0;i<nids.size();i++){
+			int idx = (int) idsmp.get(nids.get(i));
+			double cur = (double) Pr.get(idx);
+			Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
+		}
+		nPr.clear();
+		nids.clear();
 		return 0;
+	}
+	public void print(){
+		for(int i=0;i<ids.size();i++){
+			System.out.println("id: "+ids.get(i)+",pr: "+Pr.get(i));
+		}
 	}
 }
