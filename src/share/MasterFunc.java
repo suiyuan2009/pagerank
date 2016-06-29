@@ -8,5 +8,7 @@ public interface MasterFunc extends Remote {
 //    public BigInteger getFib(BigInteger n) throws RemoteException;
     public int AddWorker(String url) throws RemoteException;
     
+    public void SendCompleted(int id) throws RemoteException;
+    
     public String GetWorker(int index) throws RemoteException;  
 }

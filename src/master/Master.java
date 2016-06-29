@@ -11,6 +11,7 @@ import share.WorkerFunc;
 public class Master {
 	static final int WorkNum = 2;
 	static final int TMax = 10;
+	static int SendCompleted = 0;
 	static MasterFuncImp func;
 	static ArrayList<String> WorkerList = new ArrayList<String>();
 	public static void main(String arg[]) throws Exception{
@@ -36,9 +37,18 @@ public class Master {
 		String[] workerUrls = new String[WorkNum];
 		for (int i = 0; i < WorkNum; i++)
 			workerUrls[i] = WorkerList.get(i);
+		SendCompleted = 0;
 		for (int i = 0; i < WorkNum; i++) {
 			funcs[i].sendPrMsg(workerUrls, workerIds);
 			System.out.println("Send to " + workerUrls[i]);
+		}
+		while (true) {
+			Thread.sleep(5000);
+			//	System.out.println("Size now = " + WorkList.size());
+				if (SendCompleted == WorkNum) {
+					System.out.println("ALL Send Completed");
+					break;
+				}
 		}
 	}
 	

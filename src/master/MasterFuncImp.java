@@ -22,7 +22,11 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
 		return Master.WorkerList.size() - 1;
     }
     
-    public String GetWorker(int index) throws RemoteException {
+    public synchronized String GetWorker(int index) throws RemoteException {
     	return Master.WorkerList.get(index);
+    }
+    
+    public synchronized void SendCompleted(int id) throws RemoteException {
+    	Master.SendCompleted ++;
     }
 }
