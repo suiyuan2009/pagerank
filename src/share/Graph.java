@@ -16,21 +16,24 @@ public class Graph {
 		File file = new File(filename);
         BufferedReader reader = null;
         try {
-            System.out.println("以行为单位读取文件内容，一次读一整行：");
+           // System.out.println("锟斤拷锟斤拷为锟斤拷位锟斤拷取锟侥硷拷锟斤拷锟捷ｏ拷一锟轿讹拷一锟斤拷锟叫ｏ拷");
             reader = new BufferedReader(new FileReader(file));
             String tempString = null;
             int line = 1;
-            // 一次读入一行，直到读入null为文件结束
+            // 一锟轿讹拷锟斤拷一锟叫ｏ拷直锟斤拷锟斤拷锟斤拷null为锟侥硷拷锟斤拷锟斤拷
             tempString = reader.readLine();
             String [] tmp = tempString.split(" ");
-            N = Integer.parseInt(tmp[0]);
+            //N = Integer.parseInt(tmp[0]);
+            N = 0;
             M = 0;
             while ((tempString = reader.readLine()) != null) {
-                // 显示行号
-            	System.out.println("line " + (line++) + ": " + tempString);
+                // 锟斤拷示锟叫猴拷
+            	//System.out.println("line " + (line++) + ": " + tempString);
                 tmp = tempString.split(" ");
                 int u = Integer.parseInt(tmp[0]);
                 int v = Integer.parseInt(tmp[1]);
+                N = Math.max(N,u+1);
+                N = Math.max(N,v+1);
                 //if (u % WorkNum == WorkNo) {
                 	M++;
                 	X.add(u);
@@ -48,7 +51,7 @@ public class Graph {
                 }
             }
         }
-
+        System.out.println("Finished read graph");
 	}
 	
 	public int getX(int id) {

@@ -20,6 +20,8 @@ public class Worker {
 	public static int[] workerIds;
 	public static boolean calcPrFlag;
 	public static int round;
+	
+	
 
 	public synchronized int sendPrMsg() throws Exception {
 		for (int i = 0; i < workerIds.length; i++) {
@@ -44,9 +46,9 @@ public class Worker {
 							send.receivePrMsg(pr, idy);
 						} else {
 							// this.receivePrMsg(pr,idy);
-
-							Worker.wpr.nPr.add((double) pr);
-							Worker.wpr.nids.add((int) idy);
+							wpr.addMsg((double)pr, (int)idy);
+							//Worker.wpr.nPr.add((double) pr);
+							//Worker.wpr.nids.add((int) idy);
 							// System.out.println("receive Msg: "+ "workerid: "+
 							// Worker.wpr.WorkerId + ", node pagerank value: " +
 							// pr + ", node id: " +idy);
@@ -56,6 +58,7 @@ public class Worker {
 				}
 			}
 		}
+		System.out.println("finished sending");
 		return 0;
 	}
 
@@ -70,7 +73,7 @@ public class Worker {
 
 		System.out.println("server url: " + serverUrl);
 
-		Graph g = new Graph("TestData01.txt");
+		Graph g = new Graph("web-Google.txt");
 
 		int workerNum = 2;
 		int id = master.AddWorker(url);

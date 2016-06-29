@@ -30,9 +30,11 @@ public class WorkerPr {
 				ArrayList e = new ArrayList();
 				edges.add(e);
 			}
+		System.out.println(Pr.size()+ ","+ids.size());
 		for (int i = 0; i < g.M; i++) {
 			int x = g.getX(i);
 			if (g.isVaild(x, WorkerNum)) {
+				//if(!idsmp.containsKey(x))System.out.println("idsmp not exists: "+ x);
 				int idx = (int) idsmp.get(x);
 				ArrayList e = (ArrayList) (edges.get(idx));
 				e.add(g.getY(i));
@@ -47,19 +49,34 @@ public class WorkerPr {
 		for (int i = 0; i < ids.size(); i++) {
 			Pr.set(i, 0.15 / g.N);
 		}
-		for (int i = 0; i < nids.size(); i++) {
-			int idx = (int) idsmp.get(nids.get(i));
+		System.out.println("size2: "+ nids.size()+ ","+ nPr.size());
+		for (int i = 0; i < (int)nids.size(); i++) {
+			
+			if(i>=(int)nids.size())System.out.println("nids big: "+ i);
+			
+			if((!idsmp.containsKey((int)nids.get(i))))System.out.println("idsmp not exits: "+ nids.get(i));
+			int idx = (int) idsmp.get((int)nids.get(i));
 			double cur = (double) Pr.get(idx);
+			if(Pr.size()<=idx)System.out.println("pr.size()<="+idx);
+			if(nPr.size()<=i)System.out.println("npr.size()<="+i);
 			Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
+			
 		}
 		nPr.clear();
 		nids.clear();
 		return 0;
 	}
 
+	public synchronized void addMsg(double pr,int idx){
+		nPr.add(pr);
+		nids.add(idx);
+	}
+	
 	public void print(int round) {
 		System.out.println("round: " + round);
 		for (int i = 0; i < ids.size(); i++) {
+			int idx = (int) ids.get(i);
+			if(idx % 100000 == 0)
 			System.out.println("id: " + ids.get(i) + ",pr: " + Pr.get(i));
 		}
 	}
