@@ -95,7 +95,7 @@ public class Worker {
 		 		if(worker.sendMsgFlag == true){
 		 			worker.sendPrMsg();
 		 			worker.sendMsgFlag = false;
-		 			master.SendCompleted(id);
+		 			master.Completed(id, MasterFunc.SENT_COMPLETED);
 		 		} else if (worker.calcPrFlag == true) {
 		 			
 		 		}
