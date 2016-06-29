@@ -17,7 +17,7 @@ public class WorkerPr {
 		for(int i=0;i<g.N;i++)
 			if(g.isVaild(i, WorkerNum)){
 				ids.add(i);
-				Pr.add(0.0);
+				Pr.add(1.0/g.N);
 				idsmp.put(i,cnt);
 				cnt++;
 				ArrayList e = new ArrayList();
