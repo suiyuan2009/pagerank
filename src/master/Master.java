@@ -1,4 +1,5 @@
-import java.awt.List;
+package master;
+
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;

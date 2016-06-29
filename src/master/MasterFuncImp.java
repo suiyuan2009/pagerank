@@ -1,6 +1,9 @@
-import java.math.BigInteger;  
-import java.rmi.*;  
-import java.rmi.server.UnicastRemoteObject;  
+package master;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+import share.MasterFunc;
   
 public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {  
     public MasterFuncImp() throws RemoteException {  
