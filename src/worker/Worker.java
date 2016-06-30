@@ -21,6 +21,7 @@ public class Worker {
 	public static boolean calcPrFlag;
 	public static int round;
 	public static int masterRound;
+	public static int countMsg;
 
 	public synchronized int sendPrMsg() throws Exception {
 		ArrayList MsgPrs = new ArrayList();
@@ -46,21 +47,47 @@ public class Worker {
 		for (int i = 0; i < workerIds.length; i++) {
 			int id = workerIds[i];
 			String url = workerUrls[i];
-			System.out.println("worker "+ wpr.WorkerId +" sendPrMsg to " + " worker " + id + ", worker's url is " + url);
+			System.out.println(
+					"worker " + wpr.WorkerId + " sendPrMsg to " + " worker " + id + ", worker's url is " + url);
 			if (id == Worker.wpr.WorkerId) {
 				Worker.wpr.addMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
 			} else {
 				WorkerFunc send = (WorkerFunc) Naming.lookup(url);
-				send.receivePrMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
+				ArrayList MsgPr = (ArrayList) MsgPrs.get(id);
+				ArrayList MsgId = (ArrayList) MsgIds.get(id);
+
+				ArrayList ids = new ArrayList();
+				ArrayList prs = new ArrayList();
+				int cnt = 0;
+				int limit = 1000;
+				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
+					prs.add((double) MsgPr.get(i1));
+					ids.add((int) MsgId.get(i1));
+					cnt++;
+					if (cnt == limit) {
+						send.receivePrMsg(prs, ids);
+						cnt = 0;
+						prs.clear();
+						ids.clear();
+						System.out.println("send "+ (i1*100.0/MsgPr.size())+"%");
+					}
+				}
+				if (cnt > 0) {
+					send.receivePrMsg(prs, ids);
+					cnt = 0;
+					prs.clear();
+					ids.clear();
+				}
 			}
 		}
-		System.out.println("worker "+ Worker.wpr.WorkerId + " finished sending");
+		
+		System.out.println("worker " + Worker.wpr.WorkerId + " finished sending");
 		return 0;
 	}
 
 	public static void main(String[] args) throws Exception {
 		ArrayList portList = new ArrayList();
-		portList.add(7876);
+		portList.add(7834);
 		// String url = SharedFunc.GetIP("10.2.5.185", portList);
 		System.out.println("this worker port: " + portList.get(0));
 		String url = "//10.2.5.185:" + portList.get(0) + "/FUNCTION";
