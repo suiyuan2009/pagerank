@@ -54,8 +54,7 @@ public class WorkerPr {
 			SharedFunc.ReadCheckpoint("checkpoint", Worker.masterRound - 1, ids, Pr);
 			Worker.round = Worker.masterRound;
 		}
-		nPr.clear();
-		nids.clear();
+		clearMsg();
 		return 1;
 	}
 
@@ -63,30 +62,23 @@ public class WorkerPr {
 		SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
 		return 0;
 	}
+	
+	public int clearMsg(){
+		nPr.clear();
+		nids.clear();
+		return 0;
+	}
 
 	public int calcPr() throws Exception {
 		for (int i = 0; i < ids.size(); i++) {
 			Pr.set(i, 0.15 / g.N);
 		}
-		System.out.println("size2: " + nids.size() + "," + nPr.size());
 		for (int i = 0; i < (int) nids.size(); i++) {
-
-			if (i >= (int) nids.size())
-				System.out.println("nids big: " + i);
-
-			if ((!idsmp.containsKey((int) nids.get(i))))
-				System.out.println("idsmp not exits: " + nids.get(i));
 			int idx = (int) idsmp.get((int) nids.get(i));
 			double cur = (double) Pr.get(idx);
-			if (Pr.size() <= idx)
-				System.out.println("pr.size()<=" + idx);
-			if (nPr.size() <= i)
-				System.out.println("npr.size()<=" + i);
 			Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
-
 		}
-		nPr.clear();
-		nids.clear();
+		clearMsg();
 		return 1;
 	}
 
@@ -95,8 +87,14 @@ public class WorkerPr {
 		nids.add(idx);
 	}
 
+	public synchronized void addMsg(ArrayList prs, ArrayList idxs) {
+		for (int i = 0; i < prs.size(); i++) {
+			addMsg((double)prs.get(i),(int)idxs.get(i));
+		}
+	}
+
 	public void print(int round) {
-		System.out.println("round: " + round);
+		System.out.println("round " + round + "finished calc, output pr");
 		for (int i = 0; i < ids.size(); i++) {
 			int idx = (int) ids.get(i);
 			if (idx % 1000 == 0)
