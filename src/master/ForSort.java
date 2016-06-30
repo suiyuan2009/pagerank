@@ -6,19 +6,19 @@ public class ForSort implements Comparable<ForSort> {
     private int id;
 
     public ForSort(double a, int b) {
-    	pr = a;
-    	id = b;
+        pr = a;
+        id = b;
     }
     
     public double getPr() {
-    	return pr;
+        return pr;
     }
     
     public int getID() {
-    	return id;
+        return id;
     }
     public String toString() {
-    	return id + " " + String.format("%.5f", pr);
+        return id + " " + String.format("%.5f", pr);
     }
     @Override
     public int compareTo(ForSort o) {
@@ -27,7 +27,7 @@ public class ForSort implements Comparable<ForSort> {
             return -1;
         else
         if (this.pr < o.pr)
-        	return 1;
+            return 1;
         else
         return 0;
     }
