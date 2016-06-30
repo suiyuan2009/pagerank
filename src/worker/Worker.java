@@ -87,7 +87,7 @@ public class Worker {
 
 	public static void main(String[] args) throws Exception {
 		ArrayList portList = new ArrayList();
-		portList.add(7897);
+		portList.add(7810);
 		// String url = SharedFunc.GetIP("10.2.5.185", portList);
 		System.out.println("this worker port: " + portList.get(0));
 		String url = "//10.2.5.185:" + portList.get(0) + "/FUNCTION";
@@ -96,7 +96,7 @@ public class Worker {
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
 		System.out.println("master url is" + serverUrl);
 
-		Graph g = new Graph("p2p-Gnutella08.txt");
+		Graph g = new Graph("TestData01.txt");
 		int workerNum = master.GetWorkerNum();
 
 		try {

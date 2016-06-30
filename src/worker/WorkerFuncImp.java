@@ -37,4 +37,10 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 		System.out.println("master say to worker " + Worker.wpr.WorkerId + " to calc Pr");
 		return 0;
 	}
+	
+	public synchronized int setRound(int masterRound) throws Exception{
+		Worker.masterRound = masterRound;
+		Worker.wpr.setRound();
+		return 0;
+	}
 }

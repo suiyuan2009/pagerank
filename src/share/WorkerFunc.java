@@ -10,4 +10,6 @@ public interface WorkerFunc extends Remote {
 	public int receivePrMsg(ArrayList prs, ArrayList idxs) throws Exception;
 
 	public int calcPr() throws Exception;
+	
+	public int setRound(int masterRound) throws Exception;
 }
