@@ -125,7 +125,7 @@ public class Worker {
 		System.out.println("worker " + wpr.WorkerId + " page rank begins");
 
 		round = 0;
-		worker.wpr.print(round);
+		//worker.wpr.print(round);
 		round++;
 
 		while (true) {
@@ -155,7 +155,7 @@ public class Worker {
 				System.out.println("worker " + wpr.WorkerId + " say to master calc Pr finished");
 				worker.countMsg = 0;
 				master.Completed(id, MasterFunc.SAVE_COMPLETED);
-				worker.wpr.print(round);
+				//worker.wpr.print(round);
 				round++;
 			}
 		}
