@@ -23,7 +23,8 @@ public class Worker {
 	public static int masterRound;
 	public static boolean setRoundFlag;
 	public static int countMsg;
-
+	public static int chunkSize;
+	
 	public synchronized int sendPrMsg() throws Exception {
 		ArrayList MsgPrs = new ArrayList();
 		ArrayList MsgIds = new ArrayList();
@@ -60,7 +61,7 @@ public class Worker {
 				ArrayList ids = new ArrayList();
 				ArrayList prs = new ArrayList();
 				int cnt = 0;
-				int limit = 1000;
+				int limit = chunkSize;
 				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
 					prs.add((double) MsgPr.get(i1));
 					ids.add((int) MsgId.get(i1));
@@ -98,8 +99,10 @@ public class Worker {
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
 		System.out.println("master url is" + serverUrl);
 
-		Graph g = new Graph("p2p-Gnutella08.txt");
+		String filename = master.GetFileName();
+		Graph g = new Graph(filename);
 		int workerNum = master.GetWorkerNum();
+		chunkSize = master.GetChunkSize();
 
 		try {
 			LocateRegistry.createRegistry((int) portList.get(0));
@@ -124,16 +127,16 @@ public class Worker {
 		System.out.println("worker " + wpr.WorkerId + " ready");
 		System.out.println("worker " + wpr.WorkerId + " page rank begins");
 
-		round = 0;
-		worker.wpr.print(round);
-		round++;
-
+		
+		//worker.wpr.print(round);
+		round = 1;
+		
 		while (true) {
 			Thread.sleep(100);
 			if (worker.setRoundFlag == true) {
+				System.out.println("\nround "+masterRound);
 				worker.wpr.setRound();
 				worker.setRoundFlag = false;
-				System.out.println("\nround "+masterRound);
 				System.out.println("worker " + wpr.WorkerId + " say to master set round finished");
 				master.Completed(id, MasterFunc.SET_COMPLETED);
 			} else if (worker.sendMsgFlag == true) {
@@ -155,7 +158,7 @@ public class Worker {
 				System.out.println("worker " + wpr.WorkerId + " say to master calc Pr finished");
 				worker.countMsg = 0;
 				master.Completed(id, MasterFunc.SAVE_COMPLETED);
-				worker.wpr.print(round);
+				//worker.wpr.print(round);
 				round++;
 			}
 		}

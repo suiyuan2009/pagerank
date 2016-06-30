@@ -26,9 +26,10 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 
 	public synchronized int receivePrMsg(ArrayList prs, ArrayList idxs) throws Exception {
 		Worker.wpr.addMsg(prs, idxs);
-		/*for(int i=0;i<prs.size();i++){
-			Worker.wpr.addMsg((double)prs.get(i), (int)idxs.get(i));
-		}*/
+		/*
+		 * for(int i=0;i<prs.size();i++){ Worker.wpr.addMsg((double)prs.get(i),
+		 * (int)idxs.get(i)); }
+		 */
 		return 0;
 	}
 
@@ -37,11 +38,20 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 		System.out.println("master say to worker " + Worker.wpr.WorkerId + " to calc Pr");
 		return 0;
 	}
-	
-	public synchronized int setRound(int masterRound) throws Exception{
+
+	public synchronized int setRound(int masterRound) throws Exception {
 		Worker.masterRound = masterRound;
-		//Worker.wpr.setRound();
+		// Worker.wpr.setRound();
 		Worker.setRoundFlag = true;
 		return 0;
+	}
+
+	public void getResult(ArrayList Prs, ArrayList Ids) throws Exception {
+		Prs.clear();
+		Ids.clear();
+		for (int i = 0; i < Worker.wpr.ids.size(); i++) {
+			Ids.add((int) Worker.wpr.ids.get(i));
+			Prs.add((double) Worker.wpr.Pr.get(i));
+		}
 	}
 }
