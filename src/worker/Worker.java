@@ -59,7 +59,7 @@ public class Worker {
 				ArrayList ids = new ArrayList();
 				ArrayList prs = new ArrayList();
 				int cnt = 0;
-				int limit = 1000;
+				int limit = 3000;
 				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
 					prs.add((double) MsgPr.get(i1));
 					ids.add((int) MsgId.get(i1));
@@ -140,10 +140,12 @@ public class Worker {
 				System.out.println("worker " + wpr.WorkerId + " say to master send msg finished");
 				master.Completed(id, MasterFunc.SENT_COMPLETED);
 			} else if (worker.calcPrFlag == true) {
+				System.out.println("worker " + wpr.WorkerId + " receive "+worker.countMsg+" msg");
 				worker.wpr.calcPr();
 				worker.wpr.saveCheckPoint();
 				worker.calcPrFlag = false;
 				System.out.println("worker " + wpr.WorkerId + " say to master calc Pr finished");
+				worker.countMsg = 0;
 				master.Completed(id, MasterFunc.SAVE_COMPLETED);
 				worker.wpr.print(round);
 				round++;
