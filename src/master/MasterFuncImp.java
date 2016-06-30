@@ -42,4 +42,8 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
     public int GetChunkSize() throws RemoteException {
     	return Master.CHUNK_SIZE;
     }
+    
+    public String GetFileName() throws RemoteException {
+    	return Master.FILE_NAME;
+    }
 }
