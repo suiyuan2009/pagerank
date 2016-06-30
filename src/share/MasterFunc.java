@@ -17,4 +17,6 @@ public interface MasterFunc extends Remote {
     public int GetWorkerNum() throws RemoteException;
     
     public int GetChunkSize() throws RemoteException;  
+    
+    public String GetFileName() throws RemoteException;
 }
