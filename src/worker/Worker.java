@@ -20,6 +20,7 @@ public class Worker {
 	public static int[] workerIds;
 	public static boolean calcPrFlag;
 	public static int round;
+	public static int masterRound;
 
 	public synchronized int sendPrMsg() throws Exception {
 		for (int i = 0; i < workerIds.length; i++) {
@@ -103,6 +104,7 @@ public class Worker {
 			Thread.sleep(100);
 			if (worker.sendMsgFlag == true) {
 				try {
+					worker.wpr.setRound(round, masterRound);
 					worker.sendPrMsg();
 				} catch (Exception e) {
 					System.out.println("sendPrMsg failed: " + e);

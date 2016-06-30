@@ -15,10 +15,11 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 		super();
 	}
 
-	public synchronized int sendPrMsg(String[] workerUrls, int[] workerIds) throws Exception {
+	public synchronized int sendPrMsg(String[] workerUrls, int[] workerIds, int masterRound) throws Exception {
 		Worker.workerUrls = workerUrls;
 		Worker.workerIds = workerIds;
 		Worker.sendMsgFlag = true;
+		Worker.masterRound = masterRound;
 		System.out.println("master say to sendPrMsg:  " + "workerid: " + Worker.wpr.WorkerId);
 		return 0;
 	}
