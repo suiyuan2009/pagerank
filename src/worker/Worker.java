@@ -68,7 +68,7 @@ public class Worker {
 						cnt = 0;
 						prs.clear();
 						ids.clear();
-						System.out.println("send "+ (i1*1.0/MsgPr.size()));
+						//System.out.println("send "+ (i1*1.0/MsgPr.size()));
 					}
 				}
 				if (cnt > 0) {
@@ -95,7 +95,7 @@ public class Worker {
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
 		System.out.println("master url is" + serverUrl);
 
-		Graph g = new Graph("web-Google.txt");
+		Graph g = new Graph("p2p-Gnutella08.txt");
 		int workerNum = 2;
 
 		try {
