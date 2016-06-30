@@ -46,15 +46,41 @@ public class Worker {
 		for (int i = 0; i < workerIds.length; i++) {
 			int id = workerIds[i];
 			String url = workerUrls[i];
-			System.out.println("worker "+ wpr.WorkerId +" sendPrMsg to " + " worker " + id + ", worker's url is " + url);
+			System.out.println(
+					"worker " + wpr.WorkerId + " sendPrMsg to " + " worker " + id + ", worker's url is " + url);
 			if (id == Worker.wpr.WorkerId) {
 				Worker.wpr.addMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
 			} else {
 				WorkerFunc send = (WorkerFunc) Naming.lookup(url);
-				send.receivePrMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
+				ArrayList MsgPr = (ArrayList) MsgPrs.get(id);
+				ArrayList MsgId = (ArrayList) MsgIds.get(id);
+
+				ArrayList ids = new ArrayList();
+				ArrayList prs = new ArrayList();
+				int cnt = 0;
+				int limit = 1000;
+				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
+					prs.add((double) MsgPr.get(i1));
+					ids.add((int) MsgId.get(i1));
+					cnt++;
+					if (cnt == limit) {
+						send.receivePrMsg(prs, ids);
+						cnt = 0;
+						prs.clear();
+						ids.clear();
+						System.out.println("send "+ (i1*1.0/MsgPr.size()));
+					}
+				}
+				if (cnt > 0) {
+					send.receivePrMsg(prs, ids);
+					cnt = 0;
+					prs.clear();
+					ids.clear();
+				}
 			}
 		}
-		System.out.println("worker "+ Worker.wpr.WorkerId + " finished sending");
+		
+		System.out.println("worker " + Worker.wpr.WorkerId + " finished sending");
 		return 0;
 	}
 
@@ -69,9 +95,9 @@ public class Worker {
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
 		System.out.println("master url is" + serverUrl);
 
-		Graph g = new Graph("p2p-Gnutella08.txt");
+		Graph g = new Graph("web-Google.txt");
 		int workerNum = 2;
-		
+
 		try {
 			LocateRegistry.createRegistry((int) portList.get(0));
 			WorkerFuncImp func = new WorkerFuncImp();
@@ -82,7 +108,7 @@ public class Worker {
 		} catch (MalformedURLException e) {
 			System.out.println("MalformedURLException " + e);
 		}
-		
+
 		int id = master.AddWorker(url);
 		g.setWorkNo(id);
 		System.out.println("this worker id is " + id);
@@ -92,13 +118,13 @@ public class Worker {
 		worker.wpr = new WorkerPr(g, workerNum, checkpointPath);
 		worker.wpr.saveCheckPoint();
 
-		System.out.println("worker "+ wpr.WorkerId +" ready");
-		System.out.println("worker "+ wpr.WorkerId +" page rank begins");
+		System.out.println("worker " + wpr.WorkerId + " ready");
+		System.out.println("worker " + wpr.WorkerId + " page rank begins");
 
 		round = 0;
 		worker.wpr.print(round);
 		round++;
-		
+
 		while (true) {
 			Thread.sleep(100);
 			if (worker.sendMsgFlag == true) {
@@ -110,13 +136,13 @@ public class Worker {
 					e.printStackTrace();
 				}
 				worker.sendMsgFlag = false;
-				System.out.println("worker "+ wpr.WorkerId +" say to master send msg finished");
+				System.out.println("worker " + wpr.WorkerId + " say to master send msg finished");
 				master.Completed(id, MasterFunc.SENT_COMPLETED);
 			} else if (worker.calcPrFlag == true) {
 				worker.wpr.calcPr();
 				worker.wpr.saveCheckPoint();
 				worker.calcPrFlag = false;
-				System.out.println("worker "+ wpr.WorkerId +" say to master calc Pr finished");
+				System.out.println("worker " + wpr.WorkerId + " say to master calc Pr finished");
 				master.Completed(id, MasterFunc.SAVE_COMPLETED);
 				worker.wpr.print(round);
 				round++;

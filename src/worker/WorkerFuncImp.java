@@ -25,9 +25,7 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 	}
 
 	public synchronized int receivePrMsg(ArrayList prs, ArrayList idxs) throws Exception {
-		for(int i=0;i<prs.size();i++){
-			Worker.wpr.addMsg((double)prs.get(i), (int)idxs.get(i));
-		}
+		Worker.wpr.addMsg(prs, idxs);
 		return 0;
 	}
 
