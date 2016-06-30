@@ -86,6 +86,7 @@ public class WorkerPr {
 	public synchronized void addMsg(double pr, int idx) {
 		nPr.add(pr);
 		nids.add(idx);
+		Worker.countMsg++;
 	}
 
 	public synchronized void addMsg(ArrayList prs, ArrayList idxs) {
