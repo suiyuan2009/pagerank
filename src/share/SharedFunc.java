@@ -1,5 +1,10 @@
 package share;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
@@ -17,4 +22,65 @@ public class SharedFunc {
 		re = re + "//FUNCTION";
 		return re;
 	}
+	public static boolean WriteCheckpoint(String path, int Round, ArrayList ID, ArrayList Pr) throws Exception {
+		String path2 = "checkpoint" + Round;
+		String joinedPath = new File(path, path2).toString();
+		//System.out.println(joinedPath);
+		FileWriter fileWriter = null;  
+		try { 
+			fileWriter = new FileWriter(joinedPath);
+			for (int i = 0; i < ID.size(); i++) {  
+				fileWriter.write(ID.get(i) + " " + Pr.get(i) + "\n");  
+			}
+			fileWriter.write("-12345 -12345\n");
+		} catch (Exception e) {  
+            // TODO Auto-generated catch block
+			File f=new File(joinedPath);
+			if(f.exists())f.delete();
+            e.printStackTrace();
+            return false;
+        } finally {
+			if (fileWriter != null) fileWriter.close(); 
+        }
+		return true;
+	}
+	
+	public static boolean ReadCheckpoint(String path, int Round, ArrayList ID, ArrayList Pr) throws Exception {
+		String path2 = "checkpoint" + Round;
+		String joinedPath = new File(path, path2).toString();
+		//System.out.println(joinedPath);
+		File file = new File(joinedPath);
+        BufferedReader reader = null;
+        ID.clear(); Pr.clear();
+        boolean ok = false;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String tempString = null;
+            while ((tempString = reader.readLine()) != null) {
+                String[] tmp = tempString.split(" ");
+                int id = Integer.parseInt(tmp[0]);
+                double pr = Double.parseDouble(tmp[1]);
+                if (id == -12345) {
+                	ok = true; break;
+                }
+                ID.add(id);
+                Pr.add(pr);
+            }
+            reader.close();
+        } catch (IOException e) {
+           // e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+            if (!ok) {
+            	ID.clear();
+            	Pr.clear();
+            }
+        }
+        return ok;
+    }
 }
