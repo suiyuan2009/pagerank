@@ -20,8 +20,6 @@ public class Worker {
 	public static int[] workerIds;
 	public static boolean calcPrFlag;
 	public static int round;
-	
-	
 
 	public synchronized int sendPrMsg() throws Exception {
 		for (int i = 0; i < workerIds.length; i++) {
@@ -46,9 +44,9 @@ public class Worker {
 							send.receivePrMsg(pr, idy);
 						} else {
 							// this.receivePrMsg(pr,idy);
-							wpr.addMsg((double)pr, (int)idy);
-							//Worker.wpr.nPr.add((double) pr);
-							//Worker.wpr.nids.add((int) idy);
+							wpr.addMsg((double) pr, (int) idy);
+							// Worker.wpr.nPr.add((double) pr);
+							// Worker.wpr.nids.add((int) idy);
 							// System.out.println("receive Msg: "+ "workerid: "+
 							// Worker.wpr.WorkerId + ", node pagerank value: " +
 							// pr + ", node id: " +idy);
@@ -65,9 +63,9 @@ public class Worker {
 	public static void main(String[] args) throws Exception {
 		ArrayList portList = new ArrayList();
 		portList.add(7876);
-		//String url = SharedFunc.GetIP("10.2.5.185", portList);
+		// String url = SharedFunc.GetIP("10.2.5.185", portList);
 		System.out.println("port: " + portList.get(0));
-		String url = "//10.2.5.185:"+portList.get(0)+"/FUNCTION";
+		String url = "//10.2.5.185:" + portList.get(0) + "/FUNCTION";
 
 		String serverUrl = "//162.105.96.50:8804/SAMPLE-SERVER";
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
@@ -101,11 +99,15 @@ public class Worker {
 
 		worker.wpr.print(round);
 		round++;
-
 		while (true) {
 			Thread.sleep(100);
 			if (worker.sendMsgFlag == true) {
-				worker.sendPrMsg();
+				try {
+					worker.sendPrMsg();
+				} catch (Exception e) {
+					System.out.println("sendPrMsg failed: " + e);
+					e.printStackTrace();
+				}
 				worker.sendMsgFlag = false;
 				System.out.println("sendMsg finished");
 				master.Completed(id, MasterFunc.SENT_COMPLETED);
