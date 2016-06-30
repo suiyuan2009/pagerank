@@ -20,7 +20,7 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 		Worker.workerIds = workerIds;
 		Worker.sendMsgFlag = true;
 		Worker.masterRound = masterRound;
-		System.out.println("\nround "+masterRound + "\nmaster say to worker " + Worker.wpr.WorkerId + " to sendPrMsg");
+		System.out.println("master say to worker " + Worker.wpr.WorkerId + " to sendPrMsg");
 		return 0;
 	}
 
