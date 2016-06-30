@@ -105,7 +105,7 @@ public class Worker {
 			Thread.sleep(100);
 			if (worker.sendMsgFlag == true) {
 				try {
-					worker.wpr.setRound(round, masterRound);
+					worker.wpr.setRound();
 					worker.sendPrMsg();
 				} catch (Exception e) {
 					System.out.println("sendPrMsg failed: " + e);

@@ -42,47 +42,49 @@ public class WorkerPr {
 				e.add(g.getY(i));
 			}
 		}
-		//SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
+		// SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
 		// System.out.println(ids);
 		// System.out.println(((ArrayList)edges.get(0)).size());
 		// System.out.println(((ArrayList)edges.get(1)).size());
 	}
-	
-	public int setRound(int round, int masterRound) throws Exception{
-		if (round != masterRound){
-			SharedFunc.ReadCheckpoint("checkpoint", masterRound, ids, Pr);
+
+	public int setRound() throws Exception {
+		System.out.println("master say to reset to " + Worker.masterRound);
+		if (Worker.round != Worker.masterRound) {
+			SharedFunc.ReadCheckpoint("checkpoint", Worker.masterRound - 1, ids, Pr);
+			Worker.round = Worker.masterRound;
 		}
 		nPr.clear();
 		nids.clear();
 		return 1;
 	}
-	
-	public int saveCheckPoint() throws Exception{
+
+	public int saveCheckPoint() throws Exception {
 		SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
 		return 0;
 	}
 
 	public int calcPr() throws Exception {
-			for (int i = 0; i < ids.size(); i++) {
-				Pr.set(i, 0.15 / g.N);
-			}
-			System.out.println("size2: " + nids.size() + "," + nPr.size());
-			for (int i = 0; i < (int) nids.size(); i++) {
+		for (int i = 0; i < ids.size(); i++) {
+			Pr.set(i, 0.15 / g.N);
+		}
+		System.out.println("size2: " + nids.size() + "," + nPr.size());
+		for (int i = 0; i < (int) nids.size(); i++) {
 
-				if (i >= (int) nids.size())
-					System.out.println("nids big: " + i);
+			if (i >= (int) nids.size())
+				System.out.println("nids big: " + i);
 
-				if ((!idsmp.containsKey((int) nids.get(i))))
-					System.out.println("idsmp not exits: " + nids.get(i));
-				int idx = (int) idsmp.get((int) nids.get(i));
-				double cur = (double) Pr.get(idx);
-				if (Pr.size() <= idx)
-					System.out.println("pr.size()<=" + idx);
-				if (nPr.size() <= i)
-					System.out.println("npr.size()<=" + i);
-				Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
+			if ((!idsmp.containsKey((int) nids.get(i))))
+				System.out.println("idsmp not exits: " + nids.get(i));
+			int idx = (int) idsmp.get((int) nids.get(i));
+			double cur = (double) Pr.get(idx);
+			if (Pr.size() <= idx)
+				System.out.println("pr.size()<=" + idx);
+			if (nPr.size() <= i)
+				System.out.println("npr.size()<=" + i);
+			Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
 
-			}
+		}
 		nPr.clear();
 		nids.clear();
 		return 1;
