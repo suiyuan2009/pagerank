@@ -43,20 +43,21 @@ public class WorkerPr {
 				e.add(g.getY(i));
 			}
 		}
-		System.out.println("worker "+ WorkerId + " init finished");
+		System.out.println("worker " + WorkerId + " init finished");
 	}
 
 	public int setRound() throws Exception {
 		if (Worker.round != Worker.masterRound) {
-			System.out.println("master say to worker "+ Worker.wpr.WorkerId +" to reset to round " + Worker.masterRound);
+			System.out.println(
+					"master say to worker " + Worker.wpr.WorkerId + " to reset to round " + Worker.masterRound);
 			SharedFunc.ReadCheckpoint(checkpointPath, Worker.masterRound - 1, ids, Pr);
 			Worker.round = Worker.masterRound;
-			System.out.println( "worker "+ Worker.wpr.WorkerId +" read from checkpoint, round "+Worker.masterRound);
-		}else{
-			System.out.println("worker "+ Worker.wpr.WorkerId +" read from memory, round "+Worker.masterRound);
+			System.out.println("worker " + Worker.wpr.WorkerId + " read from checkpoint, round " + Worker.masterRound);
+		} else {
+			System.out.println("worker " + Worker.wpr.WorkerId + " read from memory, round " + Worker.masterRound);
 		}
 		Worker.wpr.clearMsg();
-		//System.out.println("finished clear");
+		// System.out.println("finished clear");
 		return 1;
 	}
 
@@ -64,22 +65,20 @@ public class WorkerPr {
 		SharedFunc.WriteCheckpoint(checkpointPath, Worker.round, ids, Pr);
 		return 0;
 	}
-	
-	public int clearMsg(){
+
+	public int clearMsg() {
 		nPr.clear();
 		nids.clear();
 		return 0;
 	}
 
 	public int calcPr() throws Exception {
-		/*for (int i = 0; i < ids.size(); i++) {
-			Pr.set(i, 0.15 / g.N);
-		}
-		for (int i = 0; i < (int) nids.size(); i++) {
-			int idx = (int) idsmp.get((int) nids.get(i));
-			double cur = (double) Pr.get(idx);
-			Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
-		}*/
+		/*
+		 * for (int i = 0; i < ids.size(); i++) { Pr.set(i, 0.15 / g.N); } for
+		 * (int i = 0; i < (int) nids.size(); i++) { int idx = (int)
+		 * idsmp.get((int) nids.get(i)); double cur = (double) Pr.get(idx);
+		 * Pr.set(idx, cur + 0.85 * (double) nPr.get(i)); }
+		 */
 		for (int i = 0; i < ids.size(); i++) {
 			Pr.set(i, 0.0);
 		}
@@ -99,22 +98,22 @@ public class WorkerPr {
 	public synchronized void addMsg(double pr, int idx) {
 		nPr.add(pr);
 		nids.add(idx);
-		System.out.println("msg: "+pr+","+idx);
+		System.out.println("msg: " + pr + "," + idx);
 		Worker.countMsg++;
 	}
 
 	public synchronized void addMsg(ArrayList prs, ArrayList idxs) {
 		for (int i = 0; i < prs.size(); i++) {
-			Worker.wpr.addMsg((double)prs.get(i),(int)idxs.get(i));
+			Worker.wpr.addMsg((double) prs.get(i), (int) idxs.get(i));
 		}
 	}
 
 	public void print(int round) {
-		System.out.println("worker "+ Worker.wpr.WorkerId +" round " + round + ", output pr");
+		System.out.println("worker " + Worker.wpr.WorkerId + " round " + round + ", output pr");
 		for (int i = 0; i < ids.size(); i++) {
 			int idx = (int) ids.get(i);
-			//if (idx % 1000 == 0)
-				System.out.println("id: " + ids.get(i) + ",pr: " + Pr.get(i));
+			// if (idx % 1000 == 0)
+			System.out.println("id: " + ids.get(i) + ",pr: " + Pr.get(i));
 		}
 	}
 }

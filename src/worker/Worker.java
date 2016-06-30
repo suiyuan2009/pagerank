@@ -70,7 +70,7 @@ public class Worker {
 						cnt = 0;
 						prs.clear();
 						ids.clear();
-						System.out.println("send "+ (i1*100.0/MsgPr.size())+"%");
+						System.out.println("send " + (i1 * 100.0 / MsgPr.size()) + "%");
 					}
 				}
 				if (cnt > 0) {
@@ -81,7 +81,7 @@ public class Worker {
 				}
 			}
 		}
-		
+
 		System.out.println("worker " + Worker.wpr.WorkerId + " finished sending");
 		return 0;
 	}
@@ -129,10 +129,11 @@ public class Worker {
 
 		while (true) {
 			Thread.sleep(100);
-			if (worker.setRoundFlag == true){
+			if (worker.setRoundFlag == true) {
 				worker.wpr.setRound();
 				worker.setRoundFlag = false;
 				System.out.println("worker " + wpr.WorkerId + " say to master set round finished");
+				master.Completed(id, MasterFunc.SET_COMPLETED);
 			} else if (worker.sendMsgFlag == true) {
 				try {
 					worker.wpr.setRound();
@@ -145,7 +146,7 @@ public class Worker {
 				System.out.println("worker " + wpr.WorkerId + " say to master send msg finished");
 				master.Completed(id, MasterFunc.SENT_COMPLETED);
 			} else if (worker.calcPrFlag == true) {
-				System.out.println("worker " + wpr.WorkerId + " receive "+worker.countMsg+" msg");
+				System.out.println("worker " + wpr.WorkerId + " receive " + worker.countMsg + " msg");
 				worker.wpr.calcPr();
 				worker.wpr.saveCheckPoint();
 				worker.calcPrFlag = false;
