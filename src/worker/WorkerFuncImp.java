@@ -40,7 +40,8 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 	
 	public synchronized int setRound(int masterRound) throws Exception{
 		Worker.masterRound = masterRound;
-		Worker.wpr.setRound();
+		//Worker.wpr.setRound();
+		Worker.setRoundFlag = true;
 		return 0;
 	}
 }
