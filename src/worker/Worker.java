@@ -167,6 +167,7 @@ public class Worker {
 				round++;
 			}else if (worker.gameOverFlag == true){
 				System.out.println("worker " + wpr.WorkerId + " exits");
+				break;
 			}
 		}
 
