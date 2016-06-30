@@ -99,7 +99,8 @@ public class Worker {
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
 		System.out.println("master url is" + serverUrl);
 
-		Graph g = new Graph("web-Google.txt");
+		String filename = master.GetFileName();
+		Graph g = new Graph(filename);
 		int workerNum = master.GetWorkerNum();
 		chunkSize = master.GetChunkSize();
 
