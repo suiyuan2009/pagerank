@@ -35,22 +35,17 @@ public class WorkerPr {
 		for (int i = 0; i < g.M; i++) {
 			int x = g.getX(i);
 			if (g.isVaild(x, WorkerNum)) {
-				// if(!idsmp.containsKey(x))System.out.println("idsmp not
-				// exists: "+ x);
 				int idx = (int) idsmp.get(x);
 				ArrayList e = (ArrayList) (edges.get(idx));
 				e.add(g.getY(i));
 			}
 		}
-		// SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
-		// System.out.println(ids);
-		// System.out.println(((ArrayList)edges.get(0)).size());
-		// System.out.println(((ArrayList)edges.get(1)).size());
+		System.out.println("worker "+ Worker.wpr.WorkerId + " init finished");
 	}
 
 	public int setRound() throws Exception {
-		System.out.println("master say to reset to " + Worker.masterRound);
 		if (Worker.round != Worker.masterRound) {
+			System.out.println("master say to worker "+ Worker.wpr.WorkerId +" to reset to round " + Worker.masterRound);
 			SharedFunc.ReadCheckpoint("checkpoint", Worker.masterRound - 1, ids, Pr);
 			Worker.round = Worker.masterRound;
 		}
@@ -94,7 +89,7 @@ public class WorkerPr {
 	}
 
 	public void print(int round) {
-		System.out.println("round " + round + "finished calc, output pr");
+		System.out.println("worker "+ Worker.wpr.WorkerId +" round " + round + " finished calc, output pr");
 		for (int i = 0; i < ids.size(); i++) {
 			int idx = (int) ids.get(i);
 			if (idx % 1000 == 0)

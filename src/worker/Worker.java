@@ -46,7 +46,7 @@ public class Worker {
 		for (int i = 0; i < workerIds.length; i++) {
 			int id = workerIds[i];
 			String url = workerUrls[i];
-			System.out.println("sendPrMsg to " + " worker " + id + ", worker's url is " + url);
+			System.out.println("worker "+ wpr.WorkerId +" sendPrMsg to " + " worker " + id + ", worker's url is " + url);
 			if (id == Worker.wpr.WorkerId) {
 				Worker.wpr.addMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
 			} else {
@@ -68,7 +68,7 @@ public class Worker {
 		String serverUrl = "//162.105.96.50:8804/SAMPLE-SERVER";
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
 
-		System.out.println("server url is" + serverUrl);
+		System.out.println("master url is" + serverUrl);
 
 		Graph g = new Graph("p2p-Gnutella08.txt");
 
