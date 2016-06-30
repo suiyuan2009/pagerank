@@ -87,7 +87,7 @@ public class Worker {
 
 	public static void main(String[] args) throws Exception {
 		ArrayList portList = new ArrayList();
-		portList.add(7834);
+		portList.add(7897);
 		// String url = SharedFunc.GetIP("10.2.5.185", portList);
 		System.out.println("this worker port: " + portList.get(0));
 		String url = "//10.2.5.185:" + portList.get(0) + "/FUNCTION";
@@ -114,7 +114,7 @@ public class Worker {
 		g.setWorkNo(id);
 		System.out.println("this worker id is " + id);
 
-		String checkpointPath = "checkpoint";
+		String checkpointPath = "checkpoint2";
 		Worker worker = new Worker();
 		worker.wpr = new WorkerPr(g, workerNum, checkpointPath);
 		worker.wpr.saveCheckPoint();
