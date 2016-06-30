@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import share.Graph;
 import share.SharedFunc;
+import worker.Worker;
 
 public class WorkerPr {
 	public int WorkerId;
@@ -15,12 +16,14 @@ public class WorkerPr {
 	public ArrayList nPr = new ArrayList();
 	public ArrayList nids = new ArrayList();
 	public int WorkerNum;
+	public String checkpointPath;
 	public Graph g;
 
-	public WorkerPr(Graph g_, int WorkerNum_) throws Exception {
+	public WorkerPr(Graph g_, int WorkerNum_, String checkpointPath_) throws Exception {
 		g = g_;
 		WorkerId = g.WorkNo;
 		WorkerNum = WorkerNum_;
+		checkpointPath = checkpointPath_;
 		int cnt = 0;
 		for (int i = 0; i < g.N; i++)
 			if (g.isVaild(i, WorkerNum)) {
@@ -40,13 +43,13 @@ public class WorkerPr {
 				e.add(g.getY(i));
 			}
 		}
-		System.out.println("worker "+ Worker.wpr.WorkerId + " init finished");
+		System.out.println("worker "+ WorkerId + " init finished");
 	}
 
 	public int setRound() throws Exception {
 		if (Worker.round != Worker.masterRound) {
 			System.out.println("master say to worker "+ Worker.wpr.WorkerId +" to reset to round " + Worker.masterRound);
-			SharedFunc.ReadCheckpoint("checkpoint", Worker.masterRound - 1, ids, Pr);
+			SharedFunc.ReadCheckpoint(checkpointPath, Worker.masterRound - 1, ids, Pr);
 			Worker.round = Worker.masterRound;
 		}
 		clearMsg();
@@ -54,7 +57,7 @@ public class WorkerPr {
 	}
 
 	public int saveCheckPoint() throws Exception {
-		SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
+		SharedFunc.WriteCheckpoint(checkpointPath, Worker.round, ids, Pr);
 		return 0;
 	}
 	

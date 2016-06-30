@@ -67,18 +67,17 @@ public class Worker {
 
 		String serverUrl = "//162.105.96.50:8804/SAMPLE-SERVER";
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
-
 		System.out.println("master url is" + serverUrl);
 
 		Graph g = new Graph("p2p-Gnutella08.txt");
-
 		int workerNum = 2;
 		int id = master.AddWorker(url);
 		g.setWorkNo(id);
 		System.out.println("this worker id is " + id);
 
+		String checkpointPath = "checkpoint";
 		Worker worker = new Worker();
-		worker.wpr = new WorkerPr(g, workerNum);
+		worker.wpr = new WorkerPr(g, workerNum, checkpointPath);
 		worker.wpr.saveCheckPoint();
 
 		try {
