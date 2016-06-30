@@ -14,7 +14,7 @@ import java.util.Map;
 import share.WorkerFunc;
 
 public class Master {
-	static final int WorkNum = 1;
+	static final int WorkNum = 3;
 	static final int TMax = 10;
 	static final int CHUNK_SIZE = 10000;
 	static final String FILE_NAME = "p2p-Gnutella08.txt";
@@ -171,6 +171,8 @@ public class Master {
 		for (int i = 0; i < WorkNum; i++) {
 			funcs[i].gameOver();
 		}
+		
+		System.exit(0);
 	}
 
 	private void WaitWorker() throws Exception {
