@@ -17,6 +17,13 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
     
     public synchronized int AddWorker(String url) throws RemoteException {
     	System.out.println("Add worker " + url);
+    	for (int i = 0; i < Master.WorkerList.size(); i++) {
+    		if (url.equals(Master.WorkerList.get(i))) {
+    			System.out.println("Already Exists " + url);
+    			Master.Recovered.add(url);
+    			return i;
+    		}
+    	}
     	Master.WorkerList.add(url);
     	System.out.println("WorkList size = " + Master.WorkerList.size());
 		return Master.WorkerList.size() - 1;

@@ -5,14 +5,16 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import share.WorkerFunc;
 
 public class Master {
 	static final int WorkNum = 2;
-	static final int TMax = 10;
+	static final int TMax = 9;
 	static int SendCompleted = 0;
 	static int SaveCompleted = 0;
+	static HashSet<String> Recovered = new HashSet<String>();
 	static MasterFuncImp func;
 	static ArrayList<String> WorkerList = new ArrayList<String>();
 	public static void main(String arg[]) throws Exception{
@@ -49,36 +51,67 @@ public class Master {
 				//   所有人当前已经是空的, break
 				//   CLEAR();
 				// }
+				if (Recovered.size() > 0) {
+					Thread.sleep(1000);
+				}
+				for (String s : Recovered) {
+					for (int i = 0; i < WorkerList.size(); i++)
+						if (s.equals(WorkerList.get(i))) {
+							System.out.println("look up " + WorkerList.get(i));
+							funcs[i] = (WorkerFunc) Naming.lookup(WorkerList.get(i));
+						}
+				}
+				Recovered.clear();
 				
 				System.out.println("Round " + o);
 				SendCompleted = 0;
 				for (int i = 0; i < WorkNum; i++) {
-					funcs[i].sendPrMsg(workerUrls, workerIds, 1);
+					try {
+						funcs[i].sendPrMsg(workerUrls, workerIds, o);
+					}  catch (Exception e) {
+						System.out.println("Exception @ sendPrMsg");
+						e.printStackTrace();
+					}
 					System.out.println("Send  " + workerUrls[i]);
 				}
+				
 				while (true) {
 					Thread.sleep(500);
 					//	System.out.println("Size now = " + WorkList.size());
-						if (SendCompleted == WorkNum) {
+						if (SendCompleted + Recovered.size() >= WorkNum) {
 							System.out.println("ALL Send Completed");
 							break;
 						}
 					//if 
 				}
+				
+				if (Recovered.size() > 0) {
+					o--;
+					continue;
+				}
+				
 				SaveCompleted = 0;
 				for (int i = 0; i < WorkNum; i++) {
-				
-					funcs[i].calcPr();
+					try {
+						funcs[i].calcPr();
+					}  catch (Exception e) {
+						System.out.println("Exception @ send Calc");
+					}
 					System.out.println("Calc  " + workerUrls[i]);
 				}
 				while (true) {
 					Thread.sleep(500);
 					//	System.out.println("Size now = " + WorkList.size());
-						if (SaveCompleted == WorkNum) {
+						if (SaveCompleted + Recovered.size() >= WorkNum) {
 							System.out.println("ALL Calc Completed");
 							break;
 						}
 					// if 
+				}
+				
+				if (Recovered.size() > 0) {
+					o--;
+					continue;
 				}
 			//} catch (Exception e) {
 			//	S

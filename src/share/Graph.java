@@ -51,7 +51,7 @@ public class Graph {
                 }
             }
         }
-        System.out.println("Finished read graph");
+        System.out.println("Finished read graph N = " + N + " M = " + M);
 	}
 	
 	public int getX(int id) {
