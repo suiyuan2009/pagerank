@@ -46,46 +46,15 @@ public class Worker {
 		for (int i = 0; i < workerIds.length; i++) {
 			int id = workerIds[i];
 			String url = workerUrls[i];
-			System.out.println(
-					"worker " + wpr.WorkerId + " sendPrMsg to " + " worker " + id + ", worker's url is " + url);
+			System.out.println("worker "+ wpr.WorkerId +" sendPrMsg to " + " worker " + id + ", worker's url is " + url);
 			if (id == Worker.wpr.WorkerId) {
-				// Worker.wpr.addMsg((ArrayList) MsgPrs.get(id), (ArrayList)
-				// MsgIds.get(id));
-				for (int j = 0; j < ((ArrayList) MsgPrs.get(id)).size(); j++) {
-					Worker.wpr.addMsg((double) ((ArrayList) MsgPrs.get(id)).get(j),
-							(int) ((ArrayList) MsgIds.get(id)).get(j));
-				}
+				Worker.wpr.addMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
 			} else {
 				WorkerFunc send = (WorkerFunc) Naming.lookup(url);
-				ArrayList MsgPr = (ArrayList) MsgPrs.get(id);
-				ArrayList MsgId = (ArrayList) MsgIds.get(id);
-
-				ArrayList ids = new ArrayList();
-				ArrayList prs = new ArrayList();
-				int cnt = 0;
-				int limit = 1000;
-				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
-					prs.add((double) MsgPr.get(i1));
-					ids.add((int) MsgId.get(i1));
-					cnt++;
-					if (cnt == limit) {
-						send.receivePrMsg(prs, ids);
-						cnt = 0;
-						prs.clear();
-						ids.clear();
-						// System.out.println("send "+ (i1*1.0/MsgPr.size()));
-					}
-				}
-				if (cnt > 0) {
-					send.receivePrMsg(prs, ids);
-					cnt = 0;
-					prs.clear();
-					ids.clear();
-				}
+				send.receivePrMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
 			}
 		}
-
-		System.out.println("worker " + Worker.wpr.WorkerId + " finished sending");
+		System.out.println("worker "+ Worker.wpr.WorkerId + " finished sending");
 		return 0;
 	}
 
