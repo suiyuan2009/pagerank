@@ -42,7 +42,7 @@ public class WorkerPr {
 				e.add(g.getY(i));
 			}
 		}
-		SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
+		//SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
 		// System.out.println(ids);
 		// System.out.println(((ArrayList)edges.get(0)).size());
 		// System.out.println(((ArrayList)edges.get(1)).size());
