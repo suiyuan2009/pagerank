@@ -108,13 +108,13 @@ public class Worker {
 					e.printStackTrace();
 				}
 				worker.sendMsgFlag = false;
-				System.out.println("worker "+ wpr.WorkerId +" sendMsg finished");
+				System.out.println("worker "+ wpr.WorkerId +" say to master send msg finished");
 				master.Completed(id, MasterFunc.SENT_COMPLETED);
 			} else if (worker.calcPrFlag == true) {
 				worker.wpr.calcPr();
 				worker.wpr.saveCheckPoint();
 				worker.calcPrFlag = false;
-				System.out.println("worker "+ wpr.WorkerId +" calc Pr finished");
+				System.out.println("worker "+ wpr.WorkerId +" say to master calc Pr finished");
 				master.Completed(id, MasterFunc.SAVE_COMPLETED);
 				worker.wpr.print(round);
 				round++;
