@@ -10,8 +10,8 @@ import java.util.HashSet;
 import share.WorkerFunc;
 
 public class Master {
-	static final int WorkNum = 2;
-	static final int TMax = 10;
+	static final int WorkNum = 3;
+	static final int TMax = 9;
 	static int SetCompleted = 0;
 	static int SendCompleted = 0;
 	static int SaveCompleted = 0;
@@ -54,9 +54,9 @@ public class Master {
 				//   所有人当前已经是空的, break
 				//   CLEAR();
 				// }
-				if (Recovered.size() > 0) {
-					Thread.sleep(1000);
-				}
+				//if (Recovered.size() > 0) {
+				//Thread.sleep(1000);
+				//}
 				for (String s : Recovered) {
 					for (int i = 0; i < WorkerList.size(); i++)
 						if (s.equals(WorkerList.get(i))) {
@@ -80,7 +80,7 @@ public class Master {
 				}
 				
 				while (true) {
-					Thread.sleep(500);
+					Thread.sleep(100);
 					//	System.out.println("Size now = " + WorkList.size());
 						if (SetCompleted + Recovered.size() >= WorkNum) {
 							System.out.println("ALL Set Completed");
@@ -106,7 +106,7 @@ public class Master {
 				}
 				
 				while (true) {
-					Thread.sleep(500);
+					Thread.sleep(100);
 					//	System.out.println("Size now = " + WorkList.size());
 						if (SendCompleted + Recovered.size() >= WorkNum) {
 							System.out.println("ALL Send Completed");
@@ -130,7 +130,7 @@ public class Master {
 					System.out.println("Calc  " + workerUrls[i]);
 				}
 				while (true) {
-					Thread.sleep(500);
+					Thread.sleep(100);
 					//	System.out.println("Size now = " + WorkList.size());
 						if (SaveCompleted + Recovered.size() >= WorkNum) {
 							System.out.println("ALL Calc Completed");
