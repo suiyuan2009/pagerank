@@ -38,4 +38,8 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
     	if (type == MasterFunc.SAVE_COMPLETED) Master.SaveCompleted ++;
     	if (type == MasterFunc.SET_COMPLETED) Master.SetCompleted ++;
     }
+    
+    public int GetChunkSize() throws RemoteException {
+    	return Master.CHUNK_SIZE;
+    }
 }

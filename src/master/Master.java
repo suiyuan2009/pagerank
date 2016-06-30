@@ -11,7 +11,8 @@ import share.WorkerFunc;
 
 public class Master {
 	static final int WorkNum = 3;
-	static final int TMax = 9;
+	static final int TMax = 10;
+	static final int CHUNK_SIZE = 10000;
 	static int SetCompleted = 0;
 	static int SendCompleted = 0;
 	static int SaveCompleted = 0;
