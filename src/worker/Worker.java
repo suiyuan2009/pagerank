@@ -64,9 +64,10 @@ public class Worker {
 
 	public static void main(String[] args) throws Exception {
 		ArrayList portList = new ArrayList();
-		String url = SharedFunc.GetIP("10.2.5.185", portList);
+		portList.add(7876);
+		//String url = SharedFunc.GetIP("10.2.5.185", portList);
 		System.out.println("port: " + portList.get(0));
-		// String url = "//162.105.96.50:8804/SAMPLE-SERVER";
+		String url = "//10.2.5.185:"+portList.get(0)+"/FUNCTION";
 
 		String serverUrl = "//162.105.96.50:8804/SAMPLE-SERVER";
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
