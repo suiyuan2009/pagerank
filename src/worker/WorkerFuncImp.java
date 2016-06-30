@@ -46,12 +46,11 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 		return 0;
 	}
 
-	public void getResult(ArrayList Prs, ArrayList Ids) throws Exception {
-		Prs.clear();
-		Ids.clear();
-		for (int i = 0; i < Worker.wpr.ids.size(); i++) {
-			Ids.add((int) Worker.wpr.ids.get(i));
-			Prs.add((double) Worker.wpr.Pr.get(i));
-		}
+	public ArrayList getResultPr() throws Exception{
+		return Worker.wpr.Pr;
+	}
+	
+	public ArrayList getResultId() throws Exception{
+		return Worker.wpr.ids;
 	}
 }

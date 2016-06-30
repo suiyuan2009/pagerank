@@ -13,5 +13,6 @@ public interface WorkerFunc extends Remote {
 	
 	public int setRound(int masterRound) throws Exception;
 	
-	public void getResult(ArrayList Prs, ArrayList Ids) throws Exception;
+	public ArrayList getResultPr() throws Exception;
+	public ArrayList getResultId() throws Exception;
 }
