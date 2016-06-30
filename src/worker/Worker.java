@@ -59,7 +59,7 @@ public class Worker {
 				ArrayList ids = new ArrayList();
 				ArrayList prs = new ArrayList();
 				int cnt = 0;
-				int limit = 3000;
+				int limit = 1000;
 				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
 					prs.add((double) MsgPr.get(i1));
 					ids.add((int) MsgId.get(i1));
