@@ -13,5 +13,5 @@ public interface MasterFunc extends Remote {
     
     public void Completed(int id, int type) throws RemoteException;
     
-    public String GetWorker(int index) throws RemoteException;  
+    public int GetWorkerNum() throws RemoteException;  
 }
