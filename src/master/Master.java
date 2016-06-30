@@ -169,7 +169,7 @@ public class Master {
         }
 		
 		for (int i = 0; i < WorkNum; i++) {
-			func[i].gameOver();
+			funcs[i].gameOver();
 		}
 	}
 
