@@ -71,6 +71,18 @@ public class Worker {
 
 		Graph g = new Graph("p2p-Gnutella08.txt");
 		int workerNum = 2;
+		
+		try {
+			LocateRegistry.createRegistry((int) portList.get(0));
+			WorkerFuncImp func = new WorkerFuncImp();
+			// ע�ᵽ registry ��
+			Naming.rebind(url, func);
+		} catch (RemoteException re) {
+			System.out.println("Exception in FibonacciImpl.main: " + re);
+		} catch (MalformedURLException e) {
+			System.out.println("MalformedURLException " + e);
+		}
+		
 		int id = master.AddWorker(url);
 		g.setWorkNo(id);
 		System.out.println("this worker id is " + id);
@@ -80,17 +92,7 @@ public class Worker {
 		worker.wpr = new WorkerPr(g, workerNum, checkpointPath);
 		worker.wpr.saveCheckPoint();
 
-		try {
-			LocateRegistry.createRegistry((int) portList.get(0));
-			WorkerFuncImp func = new WorkerFuncImp();
-			// ע�ᵽ registry ��
-			Naming.rebind(url, func);
-			System.out.println("worker "+ wpr.WorkerId +" ready");
-		} catch (RemoteException re) {
-			System.out.println("Exception in FibonacciImpl.main: " + re);
-		} catch (MalformedURLException e) {
-			System.out.println("MalformedURLException " + e);
-		}
+		System.out.println("worker "+ wpr.WorkerId +" ready");
 		System.out.println("worker "+ wpr.WorkerId +" page rank begins");
 
 		round = 0;
