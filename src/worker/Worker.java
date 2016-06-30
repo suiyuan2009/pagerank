@@ -60,7 +60,7 @@ public class Worker {
 				ArrayList ids = new ArrayList();
 				ArrayList prs = new ArrayList();
 				int cnt = 0;
-				int limit = 100000000;
+				int limit = 1000;
 				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
 					prs.add((double) MsgPr.get(i1));
 					ids.add((int) MsgId.get(i1));
@@ -78,6 +78,7 @@ public class Worker {
 					cnt = 0;
 					prs.clear();
 					ids.clear();
+					System.out.println("send 100.00%");
 				}
 			}
 		}
@@ -88,7 +89,7 @@ public class Worker {
 
 	public static void main(String[] args) throws Exception {
 		ArrayList portList = new ArrayList();
-		portList.add(7810);
+		portList.add(7815);
 		// String url = SharedFunc.GetIP("10.2.5.185", portList);
 		System.out.println("this worker port: " + portList.get(0));
 		String url = "//10.2.5.185:" + portList.get(0) + "/FUNCTION";
@@ -97,7 +98,7 @@ public class Worker {
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
 		System.out.println("master url is" + serverUrl);
 
-		Graph g = new Graph("TestData01.txt");
+		Graph g = new Graph("p2p-Gnutella08.txt");
 		int workerNum = master.GetWorkerNum();
 
 		try {
@@ -132,11 +133,12 @@ public class Worker {
 			if (worker.setRoundFlag == true) {
 				worker.wpr.setRound();
 				worker.setRoundFlag = false;
+				System.out.println("\nround "+masterRound);
 				System.out.println("worker " + wpr.WorkerId + " say to master set round finished");
 				master.Completed(id, MasterFunc.SET_COMPLETED);
 			} else if (worker.sendMsgFlag == true) {
 				try {
-					worker.wpr.setRound();
+					//worker.wpr.setRound();
 					worker.sendPrMsg();
 				} catch (Exception e) {
 					System.out.println("sendPrMsg failed: " + e);

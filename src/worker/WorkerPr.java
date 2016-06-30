@@ -98,7 +98,7 @@ public class WorkerPr {
 	public synchronized void addMsg(double pr, int idx) {
 		nPr.add(pr);
 		nids.add(idx);
-		System.out.println("msg: " + pr + "," + idx);
+		//System.out.println("msg: " + pr + "," + idx);
 		Worker.countMsg++;
 	}
 
@@ -112,7 +112,7 @@ public class WorkerPr {
 		System.out.println("worker " + Worker.wpr.WorkerId + " round " + round + ", output pr");
 		for (int i = 0; i < ids.size(); i++) {
 			int idx = (int) ids.get(i);
-			// if (idx % 1000 == 0)
+			if (idx % 1000 == 0)
 			System.out.println("id: " + ids.get(i) + ",pr: " + Pr.get(i));
 		}
 	}
