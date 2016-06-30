@@ -51,9 +51,9 @@ public class WorkerPr {
 			System.out.println("master say to worker "+ Worker.wpr.WorkerId +" to reset to round " + Worker.masterRound);
 			SharedFunc.ReadCheckpoint(checkpointPath, Worker.masterRound - 1, ids, Pr);
 			Worker.round = Worker.masterRound;
-			System.out.print( "worker "+ Worker.wpr.WorkerId +" read from checkpoint, round "+Worker.masterRound);
+			System.out.println( "worker "+ Worker.wpr.WorkerId +" read from checkpoint, round "+Worker.masterRound);
 		}else{
-			System.out.print("worker "+ Worker.wpr.WorkerId +" read from memory, round "+Worker.masterRound);
+			System.out.println("worker "+ Worker.wpr.WorkerId +" read from memory, round "+Worker.masterRound);
 		}
 		Worker.wpr.clearMsg();
 		return 1;
