@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import share.Graph;
 import share.SharedFunc;
+import worker.Worker;
 
 public class WorkerPr {
 	public int WorkerId;
@@ -42,7 +43,7 @@ public class WorkerPr {
 				e.add(g.getY(i));
 			}
 		}
-		System.out.println("worker "+ Worker.wpr.WorkerId + " init finished");
+		System.out.println("worker "+ WorkerId + " init finished");
 	}
 
 	public int setRound() throws Exception {
