@@ -56,6 +56,7 @@ public class WorkerPr {
 			System.out.println("worker "+ Worker.wpr.WorkerId +" read from memory, round "+Worker.masterRound);
 		}
 		Worker.wpr.clearMsg();
+		//System.out.println("finished clear");
 		return 1;
 	}
 

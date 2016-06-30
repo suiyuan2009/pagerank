@@ -21,6 +21,7 @@ public class Worker {
 	public static boolean calcPrFlag;
 	public static int round;
 	public static int masterRound;
+	public static boolean setRoundFlag;
 	public static int countMsg;
 
 	public synchronized int sendPrMsg() throws Exception {
@@ -128,7 +129,11 @@ public class Worker {
 
 		while (true) {
 			Thread.sleep(100);
-			if (worker.sendMsgFlag == true) {
+			if (worker.setRoundFlag == true){
+				worker.wpr.setRound();
+				worker.setRoundFlag = false;
+				System.out.println("worker " + wpr.WorkerId + " say to master set round finished");
+			} else if (worker.sendMsgFlag == true) {
 				try {
 					worker.wpr.setRound();
 					worker.sendPrMsg();
