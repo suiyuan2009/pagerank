@@ -114,7 +114,7 @@ public class Worker {
 		g.setWorkNo(id);
 		System.out.println("this worker id is " + id);
 
-		String checkpointPath = "checkpoint2";
+		String checkpointPath = "checkpoint";
 		Worker worker = new Worker();
 		worker.wpr = new WorkerPr(g, workerNum, checkpointPath);
 		worker.wpr.saveCheckPoint();

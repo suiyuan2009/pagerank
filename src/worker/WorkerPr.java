@@ -28,7 +28,7 @@ public class WorkerPr {
 		for (int i = 0; i < g.N; i++)
 			if (g.isVaild(i, WorkerNum)) {
 				ids.add(i);
-				Pr.add(1.0 / g.N);
+				Pr.add(1.0);
 				idsmp.put(i, cnt);
 				cnt++;
 				ArrayList e = new ArrayList();
@@ -80,7 +80,7 @@ public class WorkerPr {
 			Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
 		}*/
 		for (int i = 0; i < ids.size(); i++) {
-			Pr.set(i, 0);
+			Pr.set(i, 0.0);
 		}
 		for (int i = 0; i < (int) nids.size(); i++) {
 			int idx = (int) idsmp.get((int) nids.get(i));
@@ -89,7 +89,7 @@ public class WorkerPr {
 		}
 		for (int i = 0; i < ids.size(); i++) {
 			double cur = (double) Pr.get(i);
-			Pr.set(i, cur * 0.85 + 0.15/g.N);
+			Pr.set(i, cur * 0.85 + 0.15);
 		}
 		Worker.wpr.clearMsg();
 		return 1;
