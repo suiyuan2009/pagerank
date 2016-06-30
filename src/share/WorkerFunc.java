@@ -15,4 +15,5 @@ public interface WorkerFunc extends Remote {
 	
 	public ArrayList getResultPr() throws Exception;
 	public ArrayList getResultId() throws Exception;
+	public void gameOver() throws Exception;
 }

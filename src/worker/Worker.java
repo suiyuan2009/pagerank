@@ -24,6 +24,7 @@ public class Worker {
 	public static boolean setRoundFlag;
 	public static int countMsg;
 	public static int chunkSize;
+	public static boolean gameOverFlag;
 	
 	public synchronized int sendPrMsg() throws Exception {
 		ArrayList MsgPrs = new ArrayList();
@@ -89,6 +90,10 @@ public class Worker {
 	}
 
 	public static void main(String[] args) throws Exception {
+		
+		//String ipurl = SharedFunc.getLocalHostIP();
+		//System.out.println(ipurl);
+		
 		ArrayList portList = new ArrayList();
 		portList.add(7815);
 		// String url = SharedFunc.GetIP("10.2.5.185", portList);
@@ -160,6 +165,8 @@ public class Worker {
 				master.Completed(id, MasterFunc.SAVE_COMPLETED);
 				//worker.wpr.print(round);
 				round++;
+			}else if (worker.gameOverFlag == true){
+				System.out.println("worker " + wpr.WorkerId + " exits");
 			}
 		}
 

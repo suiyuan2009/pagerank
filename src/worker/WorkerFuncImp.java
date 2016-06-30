@@ -53,4 +53,7 @@ public class WorkerFuncImp extends UnicastRemoteObject implements WorkerFunc {
 	public ArrayList getResultId() throws Exception{
 		return Worker.wpr.ids;
 	}
+	public void gameOver() throws Exception{
+		Worker.gameOverFlag = true;
+	}
 }
