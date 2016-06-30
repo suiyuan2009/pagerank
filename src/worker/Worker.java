@@ -49,7 +49,12 @@ public class Worker {
 			System.out.println(
 					"worker " + wpr.WorkerId + " sendPrMsg to " + " worker " + id + ", worker's url is " + url);
 			if (id == Worker.wpr.WorkerId) {
-				Worker.wpr.addMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
+				// Worker.wpr.addMsg((ArrayList) MsgPrs.get(id), (ArrayList)
+				// MsgIds.get(id));
+				for (int j = 0; j < ((ArrayList) MsgPrs.get(id)).size(); j++) {
+					Worker.wpr.addMsg((double) ((ArrayList) MsgPrs.get(id)).get(j),
+							(int) ((ArrayList) MsgIds.get(id)).get(j));
+				}
 			} else {
 				WorkerFunc send = (WorkerFunc) Naming.lookup(url);
 				ArrayList MsgPr = (ArrayList) MsgPrs.get(id);
@@ -68,7 +73,7 @@ public class Worker {
 						cnt = 0;
 						prs.clear();
 						ids.clear();
-						//System.out.println("send "+ (i1*1.0/MsgPr.size()));
+						// System.out.println("send "+ (i1*1.0/MsgPr.size()));
 					}
 				}
 				if (cnt > 0) {
@@ -79,7 +84,7 @@ public class Worker {
 				}
 			}
 		}
-		
+
 		System.out.println("worker " + Worker.wpr.WorkerId + " finished sending");
 		return 0;
 	}
