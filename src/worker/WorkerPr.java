@@ -71,13 +71,25 @@ public class WorkerPr {
 	}
 
 	public int calcPr() throws Exception {
-		for (int i = 0; i < ids.size(); i++) {
+		/*for (int i = 0; i < ids.size(); i++) {
 			Pr.set(i, 0.15 / g.N);
 		}
 		for (int i = 0; i < (int) nids.size(); i++) {
 			int idx = (int) idsmp.get((int) nids.get(i));
 			double cur = (double) Pr.get(idx);
 			Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
+		}*/
+		for (int i = 0; i < ids.size(); i++) {
+			Pr.set(i, 0);
+		}
+		for (int i = 0; i < (int) nids.size(); i++) {
+			int idx = (int) idsmp.get((int) nids.get(i));
+			double cur = (double) Pr.get(idx);
+			Pr.set(idx, cur + (double) nPr.get(i));
+		}
+		for (int i = 0; i < ids.size(); i++) {
+			double cur = (double) Pr.get(i);
+			Pr.set(i, cur * 0.85 + 0.15/g.N);
 		}
 		Worker.wpr.clearMsg();
 		return 1;
