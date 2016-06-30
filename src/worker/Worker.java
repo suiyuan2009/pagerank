@@ -59,7 +59,7 @@ public class Worker {
 				ArrayList ids = new ArrayList();
 				ArrayList prs = new ArrayList();
 				int cnt = 0;
-				int limit = 3000;
+				int limit = 100000000;
 				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
 					prs.add((double) MsgPr.get(i1));
 					ids.add((int) MsgId.get(i1));
@@ -97,7 +97,7 @@ public class Worker {
 		System.out.println("master url is" + serverUrl);
 
 		Graph g = new Graph("p2p-Gnutella08.txt");
-		int workerNum = 2;
+		int workerNum = master.GetWorkerNum();
 
 		try {
 			LocateRegistry.createRegistry((int) portList.get(0));
