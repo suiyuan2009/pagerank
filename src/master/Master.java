@@ -1,23 +1,23 @@
 package master;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 
 import share.WorkerFunc;
 
 public class Master {
-	static final int WorkNum = 3;
+	static final int WorkNum = 1;
 	static final int TMax = 10;
 	static final int CHUNK_SIZE = 10000;
-	static final String FILE_NAME = "web-Google.txt";
+	static final String FILE_NAME = "p2p-Gnutella08.txt";
 	static int SetCompleted = 0;
 	static int SendCompleted = 0;
 	static int SaveCompleted = 0;
@@ -140,29 +140,37 @@ public class Master {
 		
 		ArrayList Pr = new ArrayList();
 		ArrayList ID = new ArrayList();
-		HashMap map = new HashMap();
+		//Map map = new TreeMap();
+		ArrayList A = new ArrayList();
 		for (int i = 0; i < WorkNum; i++) {
-			funcs[i].getResult(Pr, ID);
+			ID = funcs[i].getResultId();
+			Pr = funcs[i].getResultPr();
 			for (int j = 0; j < Pr.size(); j++) {
-				map.put(-(double)Pr.get(i), (int)ID.get(i));
+				//map.put(-((double)Pr.get(j)), (int)ID.get(j));
+				A.add(new ForSort((double)Pr.get(j), (int)ID.get(j)));
 			}
-			System.out.println("Get result from " + WorkerList.get(i));
+			System.out.println("Get result from " + WorkerList.get(i) + " size = " + Pr.size());
 		}
+		
+		Collections.sort(A);
+		
+		//for (int i = 0; i < 10; i++)
+		//	System.out.println(((ForSort)A.get(i)).getPr() + " " + ((ForSort)A.get(i)).getID());
 		
 		FileWriter fileWriter = null;  
 		try { 
 			fileWriter = new FileWriter("result.txt");
-			Iterator iter = map.entrySet().iterator();
-			while (iter.hasNext()) {
-				HashMap.Entry entry = (HashMap.Entry) iter.next();
-				double pr = -(double)entry.getKey();
-				int id = (int)entry.getValue();
-				System.out.println(id + "\t" + pr);
-			}
+			for (int i = 0; i < A.size(); i++) 
+				fileWriter.write(A.get(i).toString() + "\n");
 		} catch (Exception e) {
+			e.printStackTrace();
         } finally {
 			if (fileWriter != null) fileWriter.close(); 
         }
+		
+		for (int i = 0; i < WorkNum; i++) {
+			func[i].gameOver();
+		}
 	}
 
 	private void WaitWorker() throws Exception {
