@@ -60,7 +60,7 @@ public class Worker {
 				ArrayList ids = new ArrayList();
 				ArrayList prs = new ArrayList();
 				int cnt = 0;
-				int limit = 1000;
+				int limit = 10000;
 				for (int i1 = 0; i1 < MsgPr.size(); i1++) {
 					prs.add((double) MsgPr.get(i1));
 					ids.add((int) MsgId.get(i1));
@@ -98,7 +98,7 @@ public class Worker {
 		MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
 		System.out.println("master url is" + serverUrl);
 
-		Graph g = new Graph("p2p-Gnutella08.txt");
+		Graph g = new Graph("web-Google.txt");
 		int workerNum = master.GetWorkerNum();
 
 		try {
@@ -131,9 +131,9 @@ public class Worker {
 		while (true) {
 			Thread.sleep(100);
 			if (worker.setRoundFlag == true) {
+				System.out.println("\nround "+masterRound);
 				worker.wpr.setRound();
 				worker.setRoundFlag = false;
-				System.out.println("\nround "+masterRound);
 				System.out.println("worker " + wpr.WorkerId + " say to master set round finished");
 				master.Completed(id, MasterFunc.SET_COMPLETED);
 			} else if (worker.sendMsgFlag == true) {
