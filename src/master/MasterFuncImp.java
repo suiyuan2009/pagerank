@@ -36,5 +36,6 @@ public class MasterFuncImp extends UnicastRemoteObject implements MasterFunc {
     public synchronized void Completed(int id, int type) throws RemoteException {
     	if (type == MasterFunc.SENT_COMPLETED) Master.SendCompleted ++;
     	if (type == MasterFunc.SAVE_COMPLETED) Master.SaveCompleted ++;
+    	if (type == MasterFunc.SET_COMPLETED) Master.SetCompleted ++;
     }
 }

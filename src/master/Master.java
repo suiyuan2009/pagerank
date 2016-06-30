@@ -11,7 +11,8 @@ import share.WorkerFunc;
 
 public class Master {
 	static final int WorkNum = 2;
-	static final int TMax = 9;
+	static final int TMax = 10;
+	static int SetCompleted = 0;
 	static int SendCompleted = 0;
 	static int SaveCompleted = 0;
 	static HashSet<String> Recovered = new HashSet<String>();
@@ -37,7 +38,9 @@ public class Master {
 			funcs[i] = (WorkerFunc) Naming.lookup(WorkerList.get(i));
 		}
 		//String[] workerUrls = ;
-		int [] workerIds = {0,1};
+		int [] workerIds = new int[WorkNum];
+		for (int i = 0; i < WorkNum; i++)
+			workerIds[i] = i;
 		String[] workerUrls = new String[WorkNum];
 		for (int i = 0; i < WorkNum; i++) 
 			workerUrls[i] = WorkerList.get(i);
@@ -64,6 +67,33 @@ public class Master {
 				Recovered.clear();
 				
 				System.out.println("Round " + o);
+				
+				SetCompleted = 0;
+				for (int i = 0; i < WorkNum; i++) {
+					try {
+						funcs[i].setRound(o);
+					}  catch (Exception e) {
+						System.out.println("Exception @ setRound");
+						e.printStackTrace();
+					}
+					System.out.println("SetRound " + workerUrls[i]);
+				}
+				
+				while (true) {
+					Thread.sleep(500);
+					//	System.out.println("Size now = " + WorkList.size());
+						if (SetCompleted + Recovered.size() >= WorkNum) {
+							System.out.println("ALL Set Completed");
+							break;
+						}
+					//if 
+				}
+				
+				if (Recovered.size() > 0) {
+					o--;
+					continue;
+				}
+				
 				SendCompleted = 0;
 				for (int i = 0; i < WorkNum; i++) {
 					try {
@@ -72,7 +102,7 @@ public class Master {
 						System.out.println("Exception @ sendPrMsg");
 						e.printStackTrace();
 					}
-					System.out.println("Send  " + workerUrls[i]);
+					System.out.println("SendPrMsg  " + workerUrls[i]);
 				}
 				
 				while (true) {

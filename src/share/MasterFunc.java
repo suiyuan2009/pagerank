@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;  
   
 public interface MasterFunc extends Remote { 
+	public static final int SET_COMPLETED = 0;
 	public static final int SENT_COMPLETED = 0;
 	public static final int SAVE_COMPLETED = 1;
 	
