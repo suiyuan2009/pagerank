@@ -115,9 +115,10 @@ public class Worker {
 				master.Completed(id, MasterFunc.SENT_COMPLETED);
 			} else if (worker.calcPrFlag == true) {
 				worker.wpr.calcPr();
+				worker.wpr.saveCheckPoint();
 				worker.calcPrFlag = false;
 				System.out.println("calc Pr finished");
-				master.Completed(id, MasterFunc.CALC_COMPLETED);
+				master.Completed(id, MasterFunc.SAVE_COMPLETED);
 				worker.wpr.print(round);
 				round++;
 			}

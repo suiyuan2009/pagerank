@@ -56,9 +56,13 @@ public class WorkerPr {
 		nids.clear();
 		return 1;
 	}
+	
+	public int saveCheckPoint() throws Exception{
+		SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
+		return 0;
+	}
 
 	public int calcPr() throws Exception {
-		
 			for (int i = 0; i < ids.size(); i++) {
 				Pr.set(i, 0.15 / g.N);
 			}
@@ -81,7 +85,6 @@ public class WorkerPr {
 			}
 		nPr.clear();
 		nids.clear();
-		SharedFunc.WriteCheckpoint("checkpoint", Worker.round, ids, Pr);
 		return 1;
 	}
 
