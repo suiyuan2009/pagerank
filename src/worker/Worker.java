@@ -78,10 +78,11 @@ public class Worker {
 		int workerNum = 2;
 		int id = master.AddWorker(url);
 		g.setWorkNo(id);
-		System.out.println("id: " + id);
+		System.out.println("worker id: " + id);
 
 		Worker worker = new Worker();
 		worker.wpr = new WorkerPr(g, workerNum);
+		worker.wpr.saveCheckPoint();
 
 		try {
 			LocateRegistry.createRegistry((int) portList.get(0));
