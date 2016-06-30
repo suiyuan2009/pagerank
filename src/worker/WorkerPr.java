@@ -52,7 +52,7 @@ public class WorkerPr {
 			SharedFunc.ReadCheckpoint(checkpointPath, Worker.masterRound - 1, ids, Pr);
 			Worker.round = Worker.masterRound;
 		}
-		clearMsg();
+		Worker.wpr.clearMsg();
 		return 1;
 	}
 
@@ -76,7 +76,7 @@ public class WorkerPr {
 			double cur = (double) Pr.get(idx);
 			Pr.set(idx, cur + 0.85 * (double) nPr.get(i));
 		}
-		clearMsg();
+		Worker.wpr.clearMsg();
 		return 1;
 	}
 
@@ -87,7 +87,7 @@ public class WorkerPr {
 
 	public synchronized void addMsg(ArrayList prs, ArrayList idxs) {
 		for (int i = 0; i < prs.size(); i++) {
-			addMsg((double)prs.get(i),(int)idxs.get(i));
+			Worker.wpr.addMsg((double)prs.get(i),(int)idxs.get(i));
 		}
 	}
 
