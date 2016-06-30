@@ -92,7 +92,7 @@ public class WorkerPr {
 	}
 
 	public void print(int round) {
-		System.out.println("worker "+ Worker.wpr.WorkerId +" round " + round + " finished calc, output pr");
+		System.out.println("worker "+ Worker.wpr.WorkerId +" round " + round + ", output pr");
 		for (int i = 0; i < ids.size(); i++) {
 			int idx = (int) ids.get(i);
 			if (idx % 1000 == 0)
