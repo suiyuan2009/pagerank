@@ -10,6 +10,12 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import share.WorkerFunc;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.Option;
+
 
 public class Master {
     static final int WorkNum = 1;
@@ -23,7 +29,25 @@ public class Master {
     static MasterFuncImp func;
     static ArrayList<String> WorkerList = new ArrayList<String>();
 
-    public static void main(String arg[]) throws Exception {
+    public static void main(String[] args) throws Exception {
+
+	Options options = new Options();
+	options.addOption(Option.builder()
+			.longOpt("configure")
+			.desc("xxxxx")
+			.hasArg()
+			.argName("configure")
+			.build());
+	CommandLineParser parser = new DefaultParser();
+	CommandLine cmd = parser.parse(options, args);
+	String configureFilePath = cmd.getOptionValue("configure");
+	if(configureFilePath == null){
+	System.out.println("no configure file path provided!");
+	System.exit(0);
+	}else{
+	System.out.println("configure file path is " + configureFilePath);
+	}
+
         try {
             LocateRegistry.createRegistry(8804);
             func = new MasterFuncImp();

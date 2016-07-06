@@ -1,0 +1,9 @@
+[
+{
+"master_ip:port":"0.0.0.0:6789",
+"worker_ip:port":"0.0.0.0:6790",
+"checkpoint_dir":"/home/suiyuan2009/workspace/pagerank/checkpoint",
+"data_dir":"/home/suiyuan2009/workspace/pagerank/data"
+"result_dir":"/home/suiyuan2009/workspace/pagerank/data"
+}
+]
