@@ -1,5 +1,6 @@
 package worker;
 
+import java.io.FileReader;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -9,6 +10,15 @@ import java.util.ArrayList;
 import share.Graph;
 import share.MasterFunc;
 import share.WorkerFunc;
+
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.Option;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class Worker {
     public static WorkerPr wpr;
@@ -90,26 +100,65 @@ public class Worker {
         
         //String ipurl = SharedFunc.getLocalHostIP();
         //System.out.println(ipurl);
-        
-        ArrayList<Integer> portList = new ArrayList<Integer>();
-        portList.add(7815);
+       	 
+	Options options = new Options();
+	options.addOption(Option.builder()
+			.longOpt("configure")
+			.desc("xxxxx")
+			.hasArg()
+			.argName("configure")
+			.build());
+	CommandLineParser parser = new DefaultParser();
+	CommandLine cmd = parser.parse(options, args);
+	String configureFilePath = cmd.getOptionValue("configure");
+	if(configureFilePath == null){
+	System.out.println("no configure file path provided!");
+	System.exit(0);
+	}else{
+	System.out.println("configure file path is " + configureFilePath);
+	}
+
+
+	String workerUrl = "";
+	String checkpointDir = "";
+	String dataDir = "";
+	String masterUrl = "";
+
+  	try {
+	       JSONParser parserJson = new JSONParser();	
+            Object obj = parserJson.parse(new FileReader(configureFilePath));
+ 
+            JSONObject jsonObject = (JSONObject) obj;
+ 
+            workerUrl  = (String)jsonObject.get("worker_ip:port");
+            masterUrl  = (String)jsonObject.get("master_ip:port");
+	    dataDir = (String)jsonObject.get("data_dir");
+	    checkpointDir = (String)jsonObject.get("checkpoint_dir");
+            System.out.println("data dir: " + dataDir);
+            System.out.println("worker ip:port: " + workerUrl);
+            System.out.println("master ip:port: " + masterUrl);
+            System.out.println("checkpoint dir: " + checkpointDir);
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // String url = SharedFunc.GetIP("10.2.5.185", portList);
-        System.out.println("this worker port: " + portList.get(0));
-        String url = "//162.105.96.50:" + portList.get(0) + "/FUNCTION";
+        String url = "//"+ workerUrl + "/FUNCTION";
 
-        String serverUrl = "//162.105.96.50:8804/SAMPLE-SERVER";
+        String serverUrl = "//" + masterUrl + "/SAMPLE-SERVER";
         MasterFunc master = (MasterFunc) Naming.lookup(serverUrl);
-        System.out.println("master url is" + serverUrl);
+        System.out.println("master url is" + masterUrl);
 
-        String filename = master.GetFileName();
+        String filename = dataDir + master.GetFileName();
+	System.out.println("data file: "+filename);
         Graph g = new Graph(filename);
         int workerNum = master.GetWorkerNum();
         chunkSize = master.GetChunkSize();
 
         try {
-            LocateRegistry.createRegistry((int) portList.get(0));
+	    String[] parts = workerUrl.split(":");
+            LocateRegistry.createRegistry(Integer.parseInt(parts[1]));
             WorkerFuncImp func = new WorkerFuncImp();
-            // ע�ᵽ registry ��
             Naming.rebind(url, func);
         } catch (RemoteException re) {
             System.out.println("Exception in FibonacciImpl.main: " + re);
@@ -121,7 +170,7 @@ public class Worker {
         g.setWorkNo(id);
         System.out.println("this worker id is " + id);
 
-        String checkpointPath = "checkpoint";
+        String checkpointPath = checkpointDir;
         Worker worker = new Worker();
         worker.wpr = new WorkerPr(g, workerNum, checkpointPath);
         worker.wpr.saveCheckPoint();

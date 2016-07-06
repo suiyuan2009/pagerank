@@ -1,6 +1,5 @@
 package master;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -22,10 +21,10 @@ import org.json.simple.parser.JSONParser;
 
 
 public class Master {
-    static int WorkNum = 1;
+    static final int WorkNum = 1;
     static final int TMax = 10;
     static final int CHUNK_SIZE = 10000;
-    static String FILE_NAME = "p2p-Gnutella08.txt";
+    static final String FILE_NAME = "p2p-Gnutella08.txt";
     static int SetCompleted = 0;
     static int SendCompleted = 0;
     static int SaveCompleted = 0;
@@ -42,18 +41,6 @@ public class Master {
 			.hasArg()
 			.argName("configure")
 			.build());
-	options.addOption(Option.builder()
-			.longOpt("data")
-			.desc("xxxxx")
-			.hasArg()
-			.argName("data")
-			.build());
-	options.addOption(Option.builder()
-			.longOpt("workernum")
-			.desc("xxxxx")
-			.hasArg()
-			.argName("workernum")
-			.build());
 	CommandLineParser parser = new DefaultParser();
 	CommandLine cmd = parser.parse(options, args);
 	String configureFilePath = cmd.getOptionValue("configure");
@@ -63,38 +50,25 @@ public class Master {
 	}else{
 	System.out.println("configure file path is " + configureFilePath);
 	}
-
-	String dataFileName = cmd.getOptionValue("data");
-	if(dataFileName == null){
-	System.out.println("no data file provided!");
-	System.exit(0);
-	}else{
-	FILE_NAME = dataFileName;
-	System.out.println("data file name is " + dataFileName);
-	}
 	
-	String workNum = cmd.getOptionValue("workernum");
-	if(workNum == null){
-	System.out.println("no work num provided!");
-	System.exit(0);
-	}else{
-	WorkNum = Integer.parseInt(workNum);
-	System.out.println("work num is " + workNum);
-	}
 
-	String masterUrl = "";
-	String resultDir = "";
   	try {
-	       JSONParser parserJson = new JSONParser();	
-            Object obj = parserJson.parse(new FileReader(configureFilePath));
  
-            JSONObject jsonObject = (JSONObject)obj;
+            Object obj = parser.parse(new FileReader(configureFilePath));
  
-            masterUrl  = (String)jsonObject.get("master_ip:port");
-	    resultDir = (String)jsonObject.get("result_dir");
-
-            System.out.println("master ip:port: " + masterUrl);
-            System.out.println("result dir: " + resultDir);
+            JSONObject jsonObject = (JSONObject) obj;
+ 
+            String name = (String) jsonObject.get("Name");
+            String author = (String) jsonObject.get("Author");
+            JSONArray companyList = (JSONArray) jsonObject.get("Company List");
+ 
+            System.out.println("Name: " + name);
+            System.out.println("Author: " + author);
+            System.out.println("\nCompany List:");
+            Iterator<String> iterator = companyList.iterator();
+            while (iterator.hasNext()) {
+                System.out.println(iterator.next());
+            }
  
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,11 +77,10 @@ public class Master {
 
 
         try {
-		String[] parts = masterUrl.split(":");
-            LocateRegistry.createRegistry(Integer.parseInt(parts[1]));
+            LocateRegistry.createRegistry(8804);
             func = new MasterFuncImp();
            
-            Naming.rebind("//" + masterUrl + "/SAMPLE-SERVER", func);
+            Naming.rebind("//162.105.96.50:8804/SAMPLE-SERVER", func);
             System.out.println("master server ready");
         } catch (RemoteException re) {
             System.out.println("Exception in FibonacciImpl.main: " + re);
@@ -236,7 +209,7 @@ public class Master {
         
         FileWriter fileWriter = null;  
         try { 
-            fileWriter = new FileWriter(resultDir + "result.txt");
+            fileWriter = new FileWriter("result.txt");
             for (int i = 0; i < A.size(); i++) 
                 fileWriter.write(A.get(i).toString() + "\n");
         } catch (Exception e) {
