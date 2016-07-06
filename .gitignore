@@ -1,3 +1,4 @@
-checkpoint*
+/checkpoint/
 /target/
 /bin/
+/data/
