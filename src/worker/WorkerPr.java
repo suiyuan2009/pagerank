@@ -8,12 +8,12 @@ import share.SharedFunc;
 
 public class WorkerPr {
     public int WorkerId;
-    public ArrayList ids = new ArrayList();
-    public HashMap idsmp = new HashMap();
+    public ArrayList<Integer> ids = new ArrayList<Integer>();
+    public HashMap<Integer, Integer> idsmp = new HashMap();
     public ArrayList edges = new ArrayList();
-    public ArrayList Pr = new ArrayList();
-    public ArrayList nPr = new ArrayList();
-    public ArrayList nids = new ArrayList();
+    public ArrayList<Double> Pr = new ArrayList<Double>();
+    public ArrayList<Double> nPr = new ArrayList<Double>();
+    public ArrayList<Integer> nids = new ArrayList<Integer>();
     public int WorkerNum;
     public String checkpointPath;
     public Graph g;
@@ -101,7 +101,7 @@ public class WorkerPr {
         Worker.countMsg++;
     }
 
-    public synchronized void addMsg(ArrayList prs, ArrayList idxs) {
+    public synchronized void addMsg(ArrayList<Double> prs, ArrayList<Integer> idxs) {
         for (int i = 0; i < prs.size(); i++) {
             Worker.wpr.addMsg((double) prs.get(i), (int) idxs.get(i));
         }

@@ -35,12 +35,12 @@ public class Worker {
 
         for (int j = 0; j < Worker.wpr.ids.size(); j++) {
             int nodex = (int) Worker.wpr.ids.get(j);
-            double pr = ((double) Worker.wpr.Pr.get(j)) / (int) ((ArrayList) Worker.wpr.edges.get(j)).size();
-            for (int k = 0; k < ((ArrayList) Worker.wpr.edges.get(j)).size(); k++) {
-                int nodey = (int) ((ArrayList) Worker.wpr.edges.get(j)).get(k);
+            double pr = ((double) Worker.wpr.Pr.get(j)) / (int) ((ArrayList<Integer>) Worker.wpr.edges.get(j)).size();
+            for (int k = 0; k < ((ArrayList<Integer>) Worker.wpr.edges.get(j)).size(); k++) {
+                int nodey = (int) ((ArrayList<Integer>) Worker.wpr.edges.get(j)).get(k);
                 int workerid = nodey % Worker.wpr.WorkerNum;
-                ((ArrayList) MsgPrs.get(workerid)).add(pr);
-                ((ArrayList) MsgIds.get(workerid)).add(nodey);
+                ((ArrayList<Double>) MsgPrs.get(workerid)).add(pr);
+                ((ArrayList<Integer>) MsgIds.get(workerid)).add(nodey);
             }
         }
 
@@ -53,11 +53,11 @@ public class Worker {
                 Worker.wpr.addMsg((ArrayList) MsgPrs.get(id), (ArrayList) MsgIds.get(id));
             } else {
                 WorkerFunc send = (WorkerFunc) Naming.lookup(url);
-                ArrayList MsgPr = (ArrayList) MsgPrs.get(id);
-                ArrayList MsgId = (ArrayList) MsgIds.get(id);
+                ArrayList<Double> MsgPr = (ArrayList<Double>) MsgPrs.get(id);
+                ArrayList<Integer> MsgId = (ArrayList<Integer>) MsgIds.get(id);
 
-                ArrayList ids = new ArrayList();
-                ArrayList prs = new ArrayList();
+                ArrayList<Integer> ids = new ArrayList<Integer>();
+                ArrayList<Double> prs = new ArrayList<Double>();
                 int cnt = 0;
                 int limit = chunkSize;
                 for (int i1 = 0; i1 < MsgPr.size(); i1++) {
@@ -91,7 +91,7 @@ public class Worker {
         //String ipurl = SharedFunc.getLocalHostIP();
         //System.out.println(ipurl);
         
-        ArrayList portList = new ArrayList();
+        ArrayList<Integer> portList = new ArrayList<Integer>();
         portList.add(7815);
         // String url = SharedFunc.GetIP("10.2.5.185", portList);
         System.out.println("this worker port: " + portList.get(0));

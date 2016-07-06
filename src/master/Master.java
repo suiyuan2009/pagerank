@@ -27,7 +27,7 @@ public class Master {
         try {
             LocateRegistry.createRegistry(8804);
             func = new MasterFuncImp();
-            // ×¢²áµ½ registry ÖÐ
+           
             Naming.rebind("//162.105.96.50:8804/SAMPLE-SERVER", func);
             System.out.println("master server ready");
         } catch (RemoteException re) {
@@ -136,8 +136,8 @@ public class Master {
         }
         
         
-        ArrayList Pr = new ArrayList();
-        ArrayList ID = new ArrayList();
+        ArrayList<Double> Pr = new ArrayList<Double>();
+        ArrayList<Integer> ID = new ArrayList<Integer>();
         //Map map = new TreeMap();
         ArrayList A = new ArrayList();
         for (int i = 0; i < WorkNum; i++) {

@@ -22,7 +22,7 @@ public class ForSort implements Comparable<ForSort> {
     }
     @Override
     public int compareTo(ForSort o) {
-        // ÏÈ°´ageÅÅÐò
+        // 
         if (this.pr > o.pr) 
             return -1;
         else

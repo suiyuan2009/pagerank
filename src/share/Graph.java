@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Graph {
     public int WorkNo; // % WorkNum = WorkNo;
     public int M, N;
-    private ArrayList X = new ArrayList();
-    private ArrayList Y = new ArrayList();
+    private ArrayList<Integer> X = new ArrayList<Integer>();
+    private ArrayList<Integer> Y = new ArrayList<Integer>();
     public Graph(String filename) {
         //WorkNum = x; WorkNo = y;
         File file = new File(filename);
